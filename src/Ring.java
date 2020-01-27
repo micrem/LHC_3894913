@@ -1,9 +1,9 @@
 public class Ring {
     private LargeHadronCollider lhc;
     private Building building;
-    private ProtonTrap protonTraps[] = new ProtonTrap[2];
+    private ProtonTrap[] protonTraps = new ProtonTrap[2];
     private Detector detector;
-    private Magnet magnets[] = new Magnet[72];
+    private Magnet[] magnets = new Magnet[72];
 
 
     private boolean isActivated;

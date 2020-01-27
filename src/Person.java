@@ -16,14 +16,14 @@ public abstract class Person {
         this.name = name;
         this.iris = new Iris();
         this.password = genPassword();
-        this.passport = new Passport( Integer.toString(this.id), this );
+        this.passport = new Passport( Integer.toString(this.id), this ); //akjfhak
     }
 
     private String genPassword() {
         return password = Integer.toHexString(r.nextInt());
     }
 
-    public int[][] scanIris(){
+    public int[][] getIrisScan(){
         return  iris.toIntMatrix();
     }
 

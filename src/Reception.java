@@ -7,6 +7,7 @@ public class Reception {
     private ICardWriter cardWriter = new CardWriterVersion1();
 
     public Reception(Building building) {
+        visitorIDCards = new Stack<>();
         this.building = building;
         for (int i=1;i<20;i++){
             visitorIDCards.push(new IDCard());

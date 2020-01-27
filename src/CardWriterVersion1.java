@@ -9,7 +9,7 @@ public class CardWriterVersion1 implements ICardWriter {
 
     @Override
     public void readIris(Person person) {
-        irisData = person.iris;
+        irisData = person.getIrisScan();
     }
 
     @Override

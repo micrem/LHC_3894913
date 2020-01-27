@@ -1,4 +1,4 @@
 public interface ICryptograph {
-    public String encode(String string);
-    public String decode(String string);
+    String encode(String string);
+    String decode(String string);
 }
