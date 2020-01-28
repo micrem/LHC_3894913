@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="string_search_algorithm" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="016f4cab-f591-4943-8243-5c1e14431634" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../src/Configuration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/ant.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/string_search_algorithm.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/BoyerMoore.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/IStringMatching.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/KnuthMorrisPratt.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/Native.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/implementation.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spezifikation.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BoyerMoore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/IStringMatching.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/KnuthMorrisPratt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Native.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1T1JJd5KVg7xnTvCaQWaGzPd8U3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="true" />
+    <property name="GenerateAntBuildDialog.generateSingleFile" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="string_search_algorithm" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553973760361" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Dropbox/UNI/Sem4/SoftwareEngineering2/02_vorlesung/03_soa_komponenten/01_komponenten/02_implementierung/01_beispiele/01_beispiele/02_memory_stick" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="BoyerMoore" />
+      <recent name="Native" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mrem\IdeaProjects\LHC_3894913\string_search_algorithm\native2" />
+      <recent name="C:\Users\mrem\IdeaProjects\LHC_3894913\string_search_algorithm\BoyerMoore" />
+      <recent name="C:\Users\mrem\IdeaProjects\LHC_3894913\string_search_algorithm\native2\src" />
+      <recent name="C:\Users\mrem\IdeaProjects\LHC_3894913\string_search_algorithm\BoyerMoore\src" />
+      <recent name="C:\Users\mrem\IdeaProjects\LHC_3894913\string_search_algorithm\KnuthMorrisPratt" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.KnuthMorrisPratt">
+    <configuration name="BoyerMoore" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="BoyerMoore" />
+      <module name="implementation" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoyerMooreHorspool" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="BoyerMooreHorspool" />
+      <module name="implementation" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KnuthMorrisPratt" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="KnuthMorrisPratt" />
+      <module name="implementation" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Native" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Native" />
+      <module name="implementation" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Z" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Z" />
+      <module name="implementation" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.KnuthMorrisPratt" />
+        <item itemvalue="Application.BoyerMoore" />
+        <item itemvalue="Application.Native" />
+        <item itemvalue="Application.BoyerMooreHorspool" />
+        <item itemvalue="Application.Z" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="016f4cab-f591-4943-8243-5c1e14431634" name="Default Changelist" comment="" />
+      <created>1540712529598</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1540712529598</updated>
+      <workItem from="1580215076795" duration="3725000" />
+      <workItem from="1580218886362" duration="5528000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="133" y="0" key="#Project_Structure" timestamp="1580220539257">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="133" y="0" key="#Project_Structure/0.0.1280.813@0.0.1280.813" timestamp="1580220539257" />
+    <state x="289" y="0" key="#all" timestamp="1580215327843">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="289" y="0" key="#all/0.0.1280.813@0.0.1280.813" timestamp="1580215327843" />
+    <state x="96" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580216809562">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="96" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.813@0.0.1280.813" timestamp="1580216809562" />
+    <state x="402" y="55" key="#com.intellij.ide.util.MemberChooser" timestamp="1580222615973">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="402" y="55" key="#com.intellij.ide.util.MemberChooser/0.0.1280.813@0.0.1280.813" timestamp="1580222615973" />
+    <state x="309" y="129" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1580217857196">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="309" y="129" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1280.813@0.0.1280.813" timestamp="1580217857196" />
+    <state x="454" y="288" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1580216834340">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="454" y="288" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.813@0.0.1280.813" timestamp="1580216834340" />
+    <state x="122" y="0" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor" timestamp="1580216829995">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="122" y="0" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1280.813@0.0.1280.813" timestamp="1580216829995" />
+    <state x="377" y="237" width="526" height="353" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1580217999972">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="377" y="237" width="526" height="353" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.813@0.0.1280.813" timestamp="1580217999972" />
+    <state x="154" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1580138211652">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="154" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580138211652" />
+    <state x="371" y="84" key="FileChooserDialogImpl" timestamp="1580221322048">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="371" y="84" key="FileChooserDialogImpl/0.0.1280.813@0.0.1280.813" timestamp="1580221322048" />
+    <state width="1876" height="277" key="GridCell.Tab.0.bottom" timestamp="1580138285272">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="277" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1580138285272" />
+    <state width="1876" height="277" key="GridCell.Tab.0.center" timestamp="1580138285272">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="277" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1580138285272" />
+    <state width="1876" height="277" key="GridCell.Tab.0.left" timestamp="1580138285272">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="277" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1580138285272" />
+    <state width="1876" height="277" key="GridCell.Tab.0.right" timestamp="1580138285272">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1876" height="277" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1580138285272" />
+    <state x="0" y="0" key="SettingsEditor" timestamp="1580224190944">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="0" y="0" key="SettingsEditor/0.0.1280.813@0.0.1280.813" timestamp="1580224190944" />
+    <state x="247" y="189" key="com.intellij.ide.util.TipDialog" timestamp="1580219035222">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="247" y="189" key="com.intellij.ide.util.TipDialog/0.0.1280.813@0.0.1280.813" timestamp="1580219035222" />
+    <state x="0" y="0" key="new project wizard" timestamp="1580219893967">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="0" y="0" key="new project wizard/0.0.1280.813@0.0.1280.813" timestamp="1580219893967" />
+    <state x="219" y="-1" key="search.everywhere.popup" timestamp="1580219874264">
+      <screen x="0" y="0" width="1280" height="813" />
+    </state>
+    <state x="219" y="-1" key="search.everywhere.popup/0.0.1280.813@0.0.1280.813" timestamp="1580219874264" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand>
+      <path>
+        <item name="implementation" type="b2602c69:ProjectViewProjectNode" />
+        <item name="string_search_algorithm" type="462c0819:PsiDirectoryNode" />
+      </path>
+    </expand>
+    <select />
+  </component>
+</project>
