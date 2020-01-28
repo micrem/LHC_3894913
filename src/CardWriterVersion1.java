@@ -1,3 +1,5 @@
+import cryptography.ICryptograph;
+
 public class CardWriterVersion1 implements ICardWriter {
 
     private ICryptograph cryptograph;

@@ -1,3 +1,5 @@
+package cryptography;
+
 public class AESCryptograph implements ICryptograph {
     private String secretKey = "orange eagle monkey";
 
