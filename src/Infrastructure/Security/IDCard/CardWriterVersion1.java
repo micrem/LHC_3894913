@@ -6,10 +6,11 @@ import Cryptography.ICryptograph;
 public class CardWriterVersion1 implements ICardWriter {
 
     private ICryptograph cryptograph;
-    private IDCard idCard;
+    private IROIDCard idCard;
     private int[][] irisData;
     private String encryptedPassword;
-    private String encodePassword;
+    private String encodedPassword;
+    private IIDCard writeableCard;
 
 
     @Override
@@ -18,18 +19,18 @@ public class CardWriterVersion1 implements ICardWriter {
     }
 
     @Override
-    public void enterPassword(String password) {
+    public void enterPassword(String clearPassword) {
         //todo: encrypt pass
-        this.encodePassword = cryptograph.encode(password);
+        this.encodedPassword = cryptograph.encode(clearPassword);
     }
 
     @Override
-    public void writeCard() {
-
-    }
-
-    @Override
-    public void insertCard(IDCard idCard) {
+    public void insertCard(IROIDCard idCard) {
         this.idCard = idCard;
+    }
+
+    @Override
+    public void getWriteAccess(IROIDCard idCard) {
+        writeableCard = idCard.grantWriteAccess(this);
     }
 }
