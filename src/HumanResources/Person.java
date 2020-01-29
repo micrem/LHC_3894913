@@ -2,7 +2,6 @@ package HumanResources;
 
 import Infrastructure.Security.Biometrics.Iris;
 import Infrastructure.Security.IDCard.IDCard;
-import Infrastructure.Security.Passport;
 
 import java.util.Random;
 
@@ -13,7 +12,6 @@ public abstract class Person {
     int id;
     String name;
     Iris iris;
-    private Passport passport;
     private IDCard idcard;
     private String password;
 
@@ -22,7 +20,6 @@ public abstract class Person {
         this.name = name;
         this.iris = new Iris();
         this.password = genPassword();
-        this.passport = new Passport( Integer.toString(this.id), this ); //akjfhak
     }
 
     private String genPassword() {
