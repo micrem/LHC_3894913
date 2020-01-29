@@ -20,20 +20,25 @@ public class Reception {
         generateEmptyCards(20);
     }
 
-
-    public void createVisitorCard(Visitor visitor){
+    public void createVisitorCard(Visitor visitor) {
         //todo throw exception
         if (visitorIDCards.empty()) {
             System.out.println("No empty HumanResources.Visitor IDCards left.");
             return;
         }
         IROIDCard card = visitorIDCards.pop();
-
     }
 
     private void generateEmptyCards(int ammountCards) {
-        for (int i = 1; i< ammountCards; i++){
+        for (int i = 1; i < ammountCards; i++) {
             visitorIDCards.push(new IDCard());
         }
+    }
+
+    public IROIDCard getBlankIDCard() {
+        if (visitorIDCards.empty()) {
+            generateEmptyCards(20);
+        }
+        return visitorIDCards.pop();
     }
 }
