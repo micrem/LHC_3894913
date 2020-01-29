@@ -2,7 +2,7 @@ package Infrastructure.Security;
 
 import HumanResources.Visitor;
 import Infrastructure.LHC.Building;
-import Infrastructure.Security.IDCard.CardWriterVersion1;
+import Infrastructure.Security.IDCard.CardWriter;
 import Infrastructure.Security.IDCard.ICardWriter;
 import Infrastructure.Security.IDCard.IDCard;
 import Infrastructure.Security.IDCard.IROIDCard;
@@ -12,7 +12,7 @@ import java.util.Stack;
 public class Reception {
     private Building building;
     private Stack<IROIDCard> visitorIDCards;
-    private ICardWriter cardWriter = new CardWriterVersion1();
+    private ICardWriter cardWriter = new CardWriter();
 
     public Reception(Building building) {
         visitorIDCards = new Stack<>();
@@ -40,5 +40,9 @@ public class Reception {
             generateEmptyCards(20);
         }
         return visitorIDCards.pop();
+    }
+
+    public void insertCardSlot(IROIDCard idCard) {
+        cardWriter.insertCardSlot(idCard);
     }
 }

@@ -7,8 +7,10 @@ public class Receptionist extends Employee {
     private Reception reception;
 
 
-    public void getVisitorName(String visitorName){
+    public void processVisitor( Visitor visitor){
+        String visitorName = visitor.getName();
         IROIDCard idCard = reception.getBlankIDCard();
-
+        reception.insertCardSlot(idCard);
+        visitor.enterPassword();
     }
 }

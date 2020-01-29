@@ -20,6 +20,8 @@ public class IDCard implements IIDCard, IROIDCard {
     private ArrayList<Permission> permissionList;
     private boolean isLocked;
 
+
+
     @Override
     public Person getPerson() {
         return person;
@@ -71,8 +73,23 @@ public class IDCard implements IIDCard, IROIDCard {
     }
 
     @Override
+    public void setPassword(String password) {
+        this.chip.setPassword(password);
+    }
+
+    @Override
     public IIDCard grantWriteAccess(ICardWriter cardWriter) {
         return (IIDCard) this;
+    }
+
+    @Override
+    public String getPassword() {
+        return chip.getPassword();
+    }
+
+    @Override
+    public boolean hasPermission(Permission permission) {
+        return permissionList.contains(permission);
     }
 
     public IDCard() {

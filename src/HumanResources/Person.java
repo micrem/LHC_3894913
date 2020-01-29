@@ -3,10 +3,10 @@ package HumanResources;
 import Infrastructure.Security.Biometrics.Iris;
 import Infrastructure.Security.IDCard.IDCard;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 public abstract class Person {
-    static Random r = new Random();
+    static SecureRandom secureRandom = new SecureRandom();
 
     static int idIncrement=0;
     int id;
@@ -23,7 +23,7 @@ public abstract class Person {
     }
 
     private String genPassword() {
-        return password = Integer.toHexString(r.nextInt());
+        return password = Integer.toHexString(secureRandom.nextInt());
     }
 
     public int[][] getIrisScan(){
@@ -37,7 +37,5 @@ public abstract class Person {
     public String enterPassword(){
         return password;
     }
-
-
 }
 

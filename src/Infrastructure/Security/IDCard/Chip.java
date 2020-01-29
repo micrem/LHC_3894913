@@ -1,6 +1,13 @@
 package Infrastructure.Security.IDCard;
 
 public class Chip {
-    private IDCard idcard;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     private String password;
 }

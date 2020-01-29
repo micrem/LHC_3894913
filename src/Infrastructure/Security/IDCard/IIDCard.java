@@ -16,4 +16,6 @@ public interface IIDCard {
 
     void setLocked(boolean locked);
 
+    void setPassword(String password);
+
 }
