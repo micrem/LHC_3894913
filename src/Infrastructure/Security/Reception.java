@@ -45,4 +45,9 @@ public class Reception {
     public void insertCardSlot(IROIDCard idCard) {
         cardWriter.insertCardSlot(idCard);
     }
+
+    public boolean getPassword(Visitor visitor) {
+        cardWriter.getUserPassword(visitor);
+        return false;
+    }
 }
