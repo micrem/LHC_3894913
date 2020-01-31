@@ -1,12 +1,13 @@
 import HumanResources.Employee;
+import Infrastructure.Security.IDCard.CardReader;
+import Infrastructure.Security.IDCard.ICardWriter;
 import Infrastructure.Security.IDCard.IDCard;
-import Infrastructure.Security.IDCard.Reader;
 
 import java.util.HashMap;
 
 public enum  Management {
     INSTANCE;
-    private Reader reader;
+    private ICardWriter CardWriter;
     private HashMap<Integer, Employee> employeeMap;
     private HashMap<Integer, IDCard> idCardHashMap;
     public void createEmployee(String name){}

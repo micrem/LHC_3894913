@@ -8,7 +8,7 @@ import java.security.SecureRandom;
 public abstract class Person {
     static SecureRandom secureRandom = new SecureRandom();
 
-    static int idIncrement=0;
+    protected static int idIncrement=0;
     int id;
     String name;
     Iris iris;
@@ -21,6 +21,8 @@ public abstract class Person {
         this.iris = new Iris();
         this.password = genPassword();
     }
+
+
 
     private String genPassword() {
         return password = Integer.toHexString(secureRandom.nextInt());

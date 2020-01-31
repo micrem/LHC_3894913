@@ -12,6 +12,8 @@ public class CardReader implements ICardReader {
     protected IROIDCard idCard;
     protected int[][] irisData;
 
+    protected String encodedPassword;
+
     @Override
     public void readIris(Person person) {
         irisData = person.getIrisScan();

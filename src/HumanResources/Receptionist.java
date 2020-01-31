@@ -8,9 +8,14 @@ public class Receptionist extends Employee {
 
 
     public void processVisitor( Visitor visitor ){
+        //todo: receptiopn.getCardWriter, CardWriter.getInputDevice()
         String visitorName = visitor.getName();
         IROIDCard idCard = reception.getBlankIDCard();
         reception.insertCardSlot(idCard);
         reception.getPassword(visitor);
+    }
+
+    public Receptionist(String name) {
+        super(name);
     }
 }

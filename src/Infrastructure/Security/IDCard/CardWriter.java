@@ -13,12 +13,6 @@ public class CardWriter extends CardReader implements ICardWriter {
     }
 
     @Override
-    public void getUserPassword(Person person) {
-        //todo: encrypt pass
-        this.encodedPassword = cryptograph.encode(clearPassword);
-    }
-
-    @Override
     public void insertCardSlot(IROIDCard idCard) {
         this.idCard = idCard;
         getWriteAccess();
