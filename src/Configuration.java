@@ -5,8 +5,8 @@ public enum Configuration {
     public String fileSeparator = System.getProperty("file.separator");
     public String userDirectory = System.getProperty("user.dir");
 
-    public String nameOfSubFolder = "SearchAlgos";
-    public String nameOfJavaArchive = typeOfSearchAlgorithm + ".jar";
+    public String nameOfSubFolder = "SearchAlgos"+fileSeparator + typeOfSearchAlgorithm;
+    public String nameOfJavaArchive = "StringMatcher.jar";
     public String fullPathToJavaArchive = userDirectory + fileSeparator + nameOfSubFolder +fileSeparator + nameOfJavaArchive;
 
 
