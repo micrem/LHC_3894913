@@ -11,7 +11,8 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
     static int idCounter=0;
 
     private Person person;
-    private Chip chip;
+    private Chip chipPassword;
+    protected IDCardVersion version = IDCardVersion.SingleChip;
 
     private final int id;
     private LocalDate validFrom;
@@ -74,7 +75,7 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
 
     @Override
     public void setPassword(String password) {
-        this.chip.setPassword(password);
+        this.chipPassword.setData(password);
     }
 
     @Override
@@ -99,7 +100,7 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
 
     @Override
     public String getPassword() {
-        return chip.getPassword();
+        return chipPassword.getData();
     }
 
     @Override
@@ -109,11 +110,26 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
 
     public IDCard() {
         id = idCounter++;
-        chip = new Chip();
+        chipPassword = new Chip();
     }
 
     @Override
     public void setNewPassword(String newPassword) {
         setPassword(newPassword);
+    }
+
+    @Override
+    public IDCardVersion getVersion() {
+        return version;
+    }
+
+    @Override
+    public IROIDCardMultichip getMultichipReadAccess(ICardReader cardReader) {
+        return null;
+    }
+
+    @Override
+    public IIDCardMultichip getMultichipWriteAccess(ICardWriter cardWriter) {
+        return null;
     }
 }

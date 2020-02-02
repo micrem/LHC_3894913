@@ -24,4 +24,9 @@ public interface IROIDCard {
 
     boolean hasPermission(Permission permission);
 
+    IDCardVersion getVersion();
+
+    IROIDCardMultichip getMultichipReadAccess(ICardReader cardReader);
+    IIDCardMultichip getMultichipWriteAccess(ICardWriter cardWriter);
+
 }

@@ -4,7 +4,6 @@ import Cryptography.ICryptograph;
 import HumanResources.Employee;
 import HumanResources.Person;
 import Infrastructure.Security.Biometrics.IrisScanner;
-import Cryptography.CryptographyType;
 import Infrastructure.Security.CryptographyConfiguration;
 import Infrastructure.Security.Permission;
 
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 
 public class CardReader implements ICardReader {
 
-    private CryptographyType cryptoType = CryptographyType.AES;
     protected IrisScanner irisScanner=null;
     protected IPasswordPad passwordPad = new TouchPad();
     protected IROIDCard idCard;
@@ -51,6 +49,7 @@ public class CardReader implements ICardReader {
                     if (cardIrisStructure[i][j] != userIrisStructure[i][j]){return false;}
                 }
             }
+
         }
 
         if(LocalDate.now().isAfter(idCard.getValidTo()) || LocalDate.now().isBefore(idCard.getValidFrom())){
