@@ -1,5 +1,7 @@
 package HumanResources;
 
+import Infrastructure.Security.IDCard.IPasswordPad;
+
 public class Visitor extends Person {
     static String alphaNum = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private String password;
@@ -17,7 +19,7 @@ public class Visitor extends Person {
         return stringBuilder.toString();
     }
 
-    public String enterPassword(){
+    public String typePassword(IPasswordPad passwordPad){
         return password;
     }
 

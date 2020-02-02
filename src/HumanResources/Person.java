@@ -2,6 +2,7 @@ package HumanResources;
 
 import Infrastructure.Security.Biometrics.Fingerprint;
 import Infrastructure.Security.Biometrics.Iris;
+import Infrastructure.Security.IDCard.IPasswordPad;
 import Infrastructure.Security.IDCard.IROIDCard;
 
 import java.security.SecureRandom;
@@ -31,7 +32,7 @@ public abstract class Person {
     }
 
 
-    public String enterPassword() {
+    public String typePassword(IPasswordPad passwordPad) {
         return password;
     }
 
