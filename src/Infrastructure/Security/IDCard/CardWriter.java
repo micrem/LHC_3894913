@@ -56,6 +56,10 @@ public class CardWriter extends CardReader implements ICardWriter {
         writeableCard.setPerson(person);
         writeableCard.setValidFrom(LocalDate.now());
         writeableCard.setValidTo(LocalDate.now().plusDays(7));
+        if (idCard.getVersion()==IDCardVersion.MultiChip){
+            String userFingerPrint = person.getFingerScan(fingerScanner);
+            idCard.getMultichipWriteAccess(this).writeFingerprintData(userFingerPrint);
+        }
     }
 
     @Override

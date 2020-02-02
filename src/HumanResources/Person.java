@@ -1,6 +1,7 @@
 package HumanResources;
 
 import Infrastructure.Security.Biometrics.Fingerprint;
+import Infrastructure.Security.Biometrics.FingerprintScanner;
 import Infrastructure.Security.Biometrics.Iris;
 import Infrastructure.Security.Biometrics.IrisScanner;
 import Infrastructure.Security.IDCard.IPasswordPad;
@@ -41,6 +42,8 @@ public abstract class Person {
         return iris.toIntMatrix();
     }
 
+
+
     public String getName() {
         return name;
     }
@@ -76,5 +79,9 @@ public abstract class Person {
     protected IROIDCard getCard(){
         return idCard;
     };
+
+    public String getFingerScan(FingerprintScanner fingerprintScanner) {
+        return fingerprint.getFingerprint();
+    }
 }
 

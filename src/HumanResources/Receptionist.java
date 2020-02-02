@@ -26,7 +26,7 @@ public class Receptionist extends Employee {
         cardWriter = reception.getCardWriter(this);
         cardWriter.insertCard(idCard);
         cardWriter.setPermission(Permission.Visitor);
-        cardWriter.getUserPassword(visitor);
+        cardWriter.getPasswordInput(visitor);
         cardWriter.writePassword();
         cardWriter.scanIris(visitor);
         cardWriter.finalizeCard(visitor);

@@ -9,7 +9,7 @@ public interface ICardReader {
 
     IROIDCard ejectCard();
 
-    boolean getUserPassword(Person person);
+    boolean getPasswordInput(Person person);
 
     boolean verifyCardUser(Person person);
 

@@ -3,6 +3,7 @@ package Infrastructure.Security.IDCard;
 import Cryptography.ICryptograph;
 import HumanResources.Employee;
 import HumanResources.Person;
+import Infrastructure.Security.Biometrics.FingerprintScanner;
 import Infrastructure.Security.Biometrics.IrisScanner;
 import Infrastructure.Security.CryptographyConfiguration;
 import Infrastructure.Security.Permission;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 public class CardReader implements ICardReader {
 
     protected IrisScanner irisScanner=null;
+    protected FingerprintScanner fingerScanner=new FingerprintScanner();
     protected IPasswordPad passwordPad = new TouchPad();
     protected IROIDCard idCard;
     protected boolean validPasswordEntered = false;
@@ -23,7 +25,7 @@ public class CardReader implements ICardReader {
         if(useIrisScanner) irisScanner = new IrisScanner();
     }
 
-    public boolean getUserPassword(Person person) {
+    public boolean getPasswordInput(Person person) {
         validPasswordEntered = false;
         passwordPad.readUserInput(person);
         if (!hasValidSymbols(passwordPad.getInput())) {return false;}
@@ -36,21 +38,15 @@ public class CardReader implements ICardReader {
 
     @Override
     public boolean verifyCardUser(Person person) {
-        if (!hasCard() || !getUserPassword(person) ) {
+        if (!hasCard() || !getPasswordInput(person) ) {
             return false;
         }
         if (idCard.isLocked()) {return false;}
         if (!verifyPassword()) {return false;}
         if (useIrisScanner){
-            final int[][] cardIrisStructure = idCard.getIrisStructure();
-            final int[][] userIrisStructure = person.getIrisScan(irisScanner);
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    if (cardIrisStructure[i][j] != userIrisStructure[i][j]){return false;}
-                }
-            }
-
+            if(!verifyIris(person)){return false;}
         }
+        if (!verifyFingerprint(person)) { return false;}
 
         if(LocalDate.now().isAfter(idCard.getValidTo()) || LocalDate.now().isBefore(idCard.getValidFrom())){
             return false;
@@ -58,6 +54,26 @@ public class CardReader implements ICardReader {
         if (verifyPassword()) return true;
 
         return false;
+    }
+
+    private boolean verifyFingerprint(Person person) {
+        if (idCard.getVersion()==IDCardVersion.MultiChip){
+            String userFingerPrint = person.getFingerScan(fingerScanner);
+            String cardFingerPrint = idCard.getMultichipReadAccess(this).getFingerprint(this);
+            if (userFingerPrint!=cardFingerPrint){ return false;}
+        }
+        return true;
+    }
+
+    private boolean verifyIris(Person person) {
+        final int[][] cardIrisStructure = idCard.getIrisStructure();
+        final int[][] userIrisStructure = person.getIrisScan(irisScanner);
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (cardIrisStructure[i][j] != userIrisStructure[i][j]){return false;}
+            }
+        }
+        return true;
     }
 
     protected boolean verifyPassword() {
@@ -91,7 +107,7 @@ public class CardReader implements ICardReader {
     public void changePassword(Employee employee){
         if (!hasCard()) return;
         //check old password
-        if (!getUserPassword(employee)) return;
+        if (!getPasswordInput(employee)) return;
         if (!verifyPassword()) return;
         //get read interface
         IIDCardPWedit idCardPWwriteable = idCard.grantPasswordChangeAccess(this);
