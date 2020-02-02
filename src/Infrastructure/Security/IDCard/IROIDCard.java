@@ -18,6 +18,8 @@ public interface IROIDCard {
 
     IIDCard grantWriteAccess(ICardWriter cardWriter);
 
+    IIDCardPWedit grantPasswordChangeAccess(ICardReader cardReader);
+
     String getPassword();
 
     boolean hasPermission(Permission permission);

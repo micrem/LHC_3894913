@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class IDCard implements IIDCard, IROIDCard {
+public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
     static int idCounter=0;
 
     private Person person;
@@ -93,6 +93,11 @@ public class IDCard implements IIDCard, IROIDCard {
     }
 
     @Override
+    public IIDCardPWedit grantPasswordChangeAccess(ICardReader cardReader) {
+        return this;
+    }
+
+    @Override
     public String getPassword() {
         return chip.getPassword();
     }
@@ -105,5 +110,10 @@ public class IDCard implements IIDCard, IROIDCard {
     public IDCard() {
         id = idCounter++;
         chip = new Chip();
+    }
+
+    @Override
+    public void setNewPassword(String newPassword) {
+        setPassword(newPassword);
     }
 }

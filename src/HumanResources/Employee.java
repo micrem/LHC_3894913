@@ -1,5 +1,8 @@
 package HumanResources;
 
+import Infrastructure.Security.IDCard.CardReader;
+import Infrastructure.Security.IDCard.ICardReader;
+
 public abstract class Employee extends Person {
     private boolean isManager;
     private boolean isMentor;
@@ -7,5 +10,9 @@ public abstract class Employee extends Person {
 
     public Employee(String name) {
         super(name);
+    }
+
+    public void generateNewPassword(ICardReader cardReader) {
+        this.password = generatePassword();
     }
 }

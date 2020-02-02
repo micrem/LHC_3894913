@@ -2,6 +2,7 @@ package HumanResources;
 
 import Infrastructure.Security.Biometrics.Fingerprint;
 import Infrastructure.Security.Biometrics.Iris;
+import Infrastructure.Security.Biometrics.IrisScanner;
 import Infrastructure.Security.IDCard.IPasswordPad;
 import Infrastructure.Security.IDCard.IROIDCard;
 
@@ -20,7 +21,7 @@ public abstract class Person {
     protected Fingerprint fingerprint;
 
     private IROIDCard idCard;
-    private String password;
+    protected String password;
 
     public Person(String name) {
         this.id = idIncrement++;
@@ -28,7 +29,7 @@ public abstract class Person {
         this.iris = new Iris();
         this.password = generatePassword();
         this.fingerprint = new Fingerprint();
-        fingerprint.generateFingerprint(this.name);
+        fingerprint.scanFingerprint(this);
     }
 
 
@@ -36,7 +37,7 @@ public abstract class Person {
         return password;
     }
 
-    public int[][] getIrisScan() {
+    public int[][] getIrisScan(IrisScanner irisScanner) {
         return iris.toIntMatrix();
     }
 
@@ -48,11 +49,11 @@ public abstract class Person {
         this.idCard =idCard;
     }
 
-    private String generatePassword() {
+    protected String generatePassword() {
         return Integer.toHexString(secureRandom.nextInt());
     }
 
-    protected static String getRandomName() {
+    public static String getRandomName() {
         if (names.isEmpty()) {
             names.add("Nelchael");
             names.add("Jeremiel");

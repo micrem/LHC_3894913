@@ -12,8 +12,8 @@ public class AESCryptograph implements ICryptograph {
         return AES.encrypt(string, secretKey);
     }
 
-    @Override
-    public String decode(String string) {
-        return AES.decrypt(string, secretKey);
-    }
+//    @Override
+//    public String decode(String string) {
+//        return AES.decrypt(string, secretKey);
+//    }
 }

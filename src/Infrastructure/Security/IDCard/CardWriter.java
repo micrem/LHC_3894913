@@ -1,7 +1,9 @@
 package Infrastructure.Security.IDCard;
 
-import HumanResources.Person;
 import Cryptography.ICryptograph;
+import HumanResources.Person;
+import Cryptography.CryptographyType;
+import Infrastructure.Security.CryptographyConfiguration;
 import Infrastructure.Security.Permission;
 
 import java.time.LocalDate;
@@ -10,11 +12,14 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     private IIDCard writeableCard;
 
+    public CardWriter(boolean useIrisScanner) {
+        super(useIrisScanner);
+    }
+
     @Override
     public void scanIris(Person person) {
-        irisData = person.getIrisScan();
         if(canWrite()){
-            writeableCard.setIrisStructure(irisData);
+            writeableCard.setIrisStructure(irisScanner.scanIris(person));
         }
     }
 
@@ -32,7 +37,6 @@ public class CardWriter extends CardReader implements ICardWriter {
         return tempCard;
     }
 
-
     private void getWriteAccess() {
         writeableCard = idCard.grantWriteAccess(this);
     }
@@ -40,19 +44,18 @@ public class CardWriter extends CardReader implements ICardWriter {
     @Override
     public void writePassword() {
         if (!canWrite()) return;
-        ICryptograph cryptograph = new Cryptography.AESCryptograph(); //todo: select cryptograph by config
+        ICryptograph cryptograph = CryptographyConfiguration.instance.cryptograph;
         String encodedPassword = cryptograph.encode(this.passwordPad.getInput());
         writeableCard.setPassword(encodedPassword);
     }
 
     @Override
     public void finalizeCard(Person person) {
-        writeableCard.setIrisStructure(person.getIrisScan());
+        writeableCard.setIrisStructure(person.getIrisScan(irisScanner));
         writeableCard.setLocked(false);
         writeableCard.setPerson(person);
         writeableCard.setValidFrom(LocalDate.now());
         writeableCard.setValidTo(LocalDate.now().plusDays(7));
-
     }
 
     @Override
@@ -62,10 +65,12 @@ public class CardWriter extends CardReader implements ICardWriter {
         }
     }
 
-
     private boolean canWrite() {
         return hasCard() && writeableCard != null;
     }
 
+    public static void main(String[] args) {
+        CardWriter writer = new CardWriter(false);
+    }
 
 }

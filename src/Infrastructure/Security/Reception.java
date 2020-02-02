@@ -13,7 +13,7 @@ import java.util.Stack;
 public class Reception {
     private Building building;
     private Stack<IROIDCard> visitorIDCards;
-    private ICardWriter cardWriter = new CardWriter();
+    private ICardWriter cardWriter = new CardWriter(true);
 
     public Reception(Building building) {
         visitorIDCards = new Stack<>();

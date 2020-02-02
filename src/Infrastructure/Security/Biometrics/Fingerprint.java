@@ -1,5 +1,8 @@
 package Infrastructure.Security.Biometrics;
 
+import HumanResources.Person;
+import HumanResources.Visitor;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -11,11 +14,11 @@ public class Fingerprint {
 
     private String fingerprint;
 
-    public void generateFingerprint(String name) {
+    public void scanFingerprint(Person person) {
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
-            md.update(name.getBytes());
+            md.update(person.getName().getBytes());
             byte[] digest = md.digest();
             String myChecksum = bytesToHex(digest).toUpperCase();
             fingerprint = myChecksum;
@@ -36,7 +39,12 @@ public class Fingerprint {
 
     public static void main(String[] args) {
         Fingerprint f = new Fingerprint();
-        f.generateFingerprint("Alfonse Brightflank");
+        Person person = new Visitor(Person.getRandomName());
+        Person person2 = new Visitor("aaa bbb");
+
+        f.scanFingerprint(person);
+        System.out.println(f.getFingerprint());
+        f.scanFingerprint(person2);
         System.out.println(f.getFingerprint());
     }
 }
