@@ -1,10 +1,15 @@
 import HumanResources.Employee;
+import Infrastructure.Security.IDCard.CardWriter;
 import Infrastructure.Security.IDCard.ICardWriter;
 import Infrastructure.Security.IDCard.IROIDCardMultichip;
 
 public enum IDCardManagement {
     INSTANCE;
-    private ICardWriter CardWriter;
+    private ICardWriter cardWriter;
+
+    IDCardManagement() {
+        cardWriter= new CardWriter(true);
+    }
 
     public void assignIDCard(IROIDCardMultichip idCard, Employee employee){}
 
