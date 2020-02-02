@@ -3,11 +3,11 @@ package Infrastructure.Security.IDCard;
 public class IDCardv2 extends IDCard implements IROIDCardMultichip, IIDCardMultichip {
     protected Chip chipFingerprint;
 
-
-    public IDCardv2() {
+    public IDCardv2(String initialPassword) {
         super();
         version = IDCardVersion.MultiChip;
         chipFingerprint = new Chip();
+        setPassword(initialPassword);
     }
 
     @Override
@@ -29,7 +29,4 @@ public class IDCardv2 extends IDCard implements IROIDCardMultichip, IIDCardMulti
     public IIDCardMultichip getMultichipWriteAccess(ICardWriter cardWriter) {
         return this;
     }
-
-
-
 }
