@@ -3,9 +3,9 @@ package Infrastructure.Security.IDCard;
 import HumanResources.Person;
 import Infrastructure.Security.Permission;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 public class IDCard implements IIDCard, IROIDCard {
     static int idCounter=0;
@@ -14,10 +14,10 @@ public class IDCard implements IIDCard, IROIDCard {
     private Chip chip;
 
     private final int id;
-    private Date validFrom;
-    private Date validTo;
+    private LocalDate validFrom;
+    private LocalDate validTo;
     private int[][] irisStructure = new int[10][10];
-    private ArrayList<Permission> permissionList;
+    private ArrayList<Permission> permissionList = new ArrayList<>();
     private boolean isLocked;
 
 
@@ -33,22 +33,22 @@ public class IDCard implements IIDCard, IROIDCard {
     }
 
     @Override
-    public Date getValidFrom() {
+    public LocalDate getValidFrom() {
         return validFrom;
     }
 
     @Override
-    public void setValidFrom(Date validFrom) {
+    public void setValidFrom(LocalDate validFrom) {
         this.validFrom = validFrom;
     }
 
     @Override
-    public Date getValidTo() {
+    public LocalDate getValidTo() {
         return validTo;
     }
 
     @Override
-    public void setValidTo(Date validTo) {
+    public void setValidTo(LocalDate validTo) {
         this.validTo = validTo;
     }
 
@@ -78,8 +78,18 @@ public class IDCard implements IIDCard, IROIDCard {
     }
 
     @Override
+    public void setPermission(Permission permission, boolean allow) {
+        if (permissionList.contains(permission)){
+            if (!allow) permissionList.remove(permission);
+        } else {
+            if (allow) permissionList.add(permission);
+        }
+    }
+
+    @Override
     public IIDCard grantWriteAccess(ICardWriter cardWriter) {
-        return (IIDCard) this;
+        //verify ICardWriter compatibility
+        return this;
     }
 
     @Override

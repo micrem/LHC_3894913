@@ -17,6 +17,7 @@ public class Detector {
     private Object port;
     private Method searchMethod;
 
+    /** @noinspection unchecked*/
     public Detector() {
 
         try {

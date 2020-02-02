@@ -1,5 +1,4 @@
 import HumanResources.Employee;
-import Infrastructure.Security.IDCard.CardReader;
 import Infrastructure.Security.IDCard.ICardWriter;
 import Infrastructure.Security.IDCard.IDCard;
 

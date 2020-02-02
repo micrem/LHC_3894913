@@ -4,11 +4,15 @@ import HumanResources.Person;
 
 public interface ICardReader {
 
-    void readIris(Person person);
+    void scanIris(Person person);
 
-    void insertCardSlot(IROIDCard idCard);
+    void insertCard(IROIDCard idCard);
 
-    void removeCard();
+    IROIDCard ejectCard();
 
     boolean getUserPassword(Person person);
+
+    boolean verifyCardUser(Person person);
+
+    void insertCard(IROIDCardRFID idCard);
 }

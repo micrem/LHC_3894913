@@ -3,15 +3,14 @@ package Infrastructure.Security.IDCard;
 import HumanResources.Person;
 import Infrastructure.Security.Permission;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface IROIDCard {
     Person getPerson();
 
-    Date getValidFrom();
+    LocalDate getValidFrom();
 
-    Date getValidTo();
+    LocalDate getValidTo();
 
     int[][] getIrisStructure();
 

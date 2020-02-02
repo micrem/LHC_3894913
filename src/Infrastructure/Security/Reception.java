@@ -1,5 +1,6 @@
 package Infrastructure.Security;
 
+import HumanResources.Receptionist;
 import HumanResources.Visitor;
 import Infrastructure.LHC.Building;
 import Infrastructure.Security.IDCard.CardWriter;
@@ -17,7 +18,6 @@ public class Reception {
     public Reception(Building building) {
         visitorIDCards = new Stack<>();
         this.building = building;
-        generateEmptyCards(20);
     }
 
     public void createVisitorCard(Visitor visitor) {
@@ -42,12 +42,8 @@ public class Reception {
         return visitorIDCards.pop();
     }
 
-    public void insertCardSlot(IROIDCard idCard) {
-        cardWriter.insertCardSlot(idCard);
-    }
-
-    public boolean getPassword(Visitor visitor) {
-        cardWriter.getUserPassword(visitor);
-        return false;
+    public ICardWriter getCardWriter(Receptionist receptionist) {
+        //log writer access, check credentials etc.
+        return cardWriter;
     }
 }

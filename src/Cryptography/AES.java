@@ -22,7 +22,7 @@ public class AES {
             sha = MessageDigest.getInstance("SHA-1");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
-            secretKey = new SecretKeySpec(key, "security.AES");
+            secretKey = new SecretKeySpec(key, "AES");
         }
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -34,7 +34,7 @@ public class AES {
         try
         {
             setKey(secret);
-            Cipher cipher = Cipher.getInstance("security.AES/ECB/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
         }
@@ -50,7 +50,7 @@ public class AES {
         try
         {
             setKey(secret);
-            Cipher cipher = Cipher.getInstance("security.AES/ECB/PKCS5PADDING");
+            Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         }

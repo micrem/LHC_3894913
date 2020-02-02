@@ -20,4 +20,8 @@ public class Visitor extends Person {
     public String enterPassword(){
         return password;
     }
+
+    public void registerWithReceptionist(Receptionist receptionist){
+        receptionist.processVisitor(this);
+    }
 }
