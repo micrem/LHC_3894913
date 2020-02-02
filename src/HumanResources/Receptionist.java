@@ -43,8 +43,6 @@ public class Receptionist extends Employee {
         Receptionist receptionist = new Receptionist("Alfred Hitchblock");
         receptionist.setReception(reception);
         Visitor visitor  = new Visitor("Dumbledore Blunderbuss");
-
         visitor.registerWithReceptionist(receptionist);
-
     }
 }

@@ -2,7 +2,6 @@ package Infrastructure.Security.IDCard;
 
 import Cryptography.ICryptograph;
 import HumanResources.Person;
-import Cryptography.CryptographyType;
 import Infrastructure.Security.CryptographyConfiguration;
 import Infrastructure.Security.Permission;
 

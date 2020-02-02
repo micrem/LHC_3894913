@@ -1,10 +1,10 @@
 package Cryptography;
 
 public class AESCryptograph implements ICryptograph {
-    private String secretKey = "orange eagle monkey";
+    private String secretKey;
 
-    public AESCryptograph() {
-        //init aes?
+    public AESCryptograph(String masterPassword) {
+        secretKey = masterPassword;
     }
 
     @Override
