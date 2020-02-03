@@ -1,5 +1,7 @@
 package Infrastructure.LHC;
 
+import com.google.common.eventbus.Subscribe;
+
 import java.io.File;
 import java.io.Reader;
 import java.lang.reflect.Method;
@@ -45,6 +47,11 @@ public class Detector {
         }
 
         return  0;
+    }
+
+    @Subscribe
+    public void receive(EventAnalyse event){
+
     }
 
 }

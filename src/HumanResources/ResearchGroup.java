@@ -1,6 +1,6 @@
 package HumanResources;
 
-import Infrastructure.Security.Workplace;
+import Infrastructure.LHC.Workplace;
 
 public class ResearchGroup {
     private Workplace workplace;
