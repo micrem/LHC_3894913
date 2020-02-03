@@ -2,8 +2,13 @@ package Infrastructure.LHC;
 import com.google.common.eventbus.Subscribe;
 
 public class Ring {
+    public String userDirectory = System.getProperty("user.dir");
+    public String fileSeparator = System.getProperty("file.separator");
+    public String fileEnding = ".txt";
+    public String fileNamePart = "";
+
     private LargeHadronCollider lhc;
-    private ProtonTrap[] protonTraps = new ProtonTrap[2];
+    private ProtonTrap[] protonTraps;
     private Detector detector;
     private Magnet[] magnets = new Magnet[72];
 
@@ -24,8 +29,13 @@ public class Ring {
     public Ring(LargeHadronCollider lhc, Detector detector) {
         this.lhc = lhc;
         this.detector = detector;
-        protonTraps[0].loadData(filename);
-        protonTraps[1].loadData("filename");
+        protonTraps = new ProtonTrap[2];
+        protonTraps[0] = new ProtonTrap(ProtonTrapID.A);
+        protonTraps[1] = new ProtonTrap(ProtonTrapID.B);
+        for (int i = 0; i < 25; i++) {
+            protonTraps[0].loadData(filename);
+            protonTraps[1].loadData("filename");
+        }
     }
 
 
@@ -81,10 +91,9 @@ public class Ring {
     }
 
     public void collide(Proton proton01, Proton proton02){
-        Block block = new Block();
-        block.
+        //Block block = new Block();
         proton01.getStructure()[0][0][0]=1;
-        currentExperiment.
+        //currentExperiment.
     }
 
     public int decreaseEnergy(){

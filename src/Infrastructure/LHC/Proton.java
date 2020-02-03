@@ -18,7 +18,7 @@ public class Proton {
     }
 
     public void setStructure(int[][][] structure) {
-        this.structure. = structure.clone();
+        this.structure = structure.clone();
     }
 
     public double getWeight() {
