@@ -3,6 +3,21 @@ package Infrastructure.LHC;
 import java.util.UUID;
 
 public class Experiment {
+
+    private UUID uuid = UUID.randomUUID();
+    private String dateTimeStamp;
+    private boolean isHiggsBosonFound;
+    private int higgsBlockID=0;
+    private ExperimentScope scope=ExperimentScope.ESFull;
+
+    public ExperimentScope getScope() {
+        return scope;
+    }
+
+    public void setScope(ExperimentScope scope) {
+        this.scope = scope;
+    }
+
     public void setBlocks(Block[] blocks) {
         this.blocks = blocks;
     }
@@ -37,10 +52,49 @@ public class Experiment {
         return isHiggsBosonFound;
     }
 
-    private UUID uuid;
-    private String dateTimeStamp;
-    private boolean isHiggsBosonFound;
+    public int getHiggsBlockID() {
+        return higgsBlockID;
+    }
+
+    public void setHiggsBlockID(int higgsBlockID) {
+        this.higgsBlockID = higgsBlockID;
+    }
+
+    public int getProton01ID() {
+        return proton01ID;
+    }
+
+    public void setProton01ID(int proton01ID) {
+        this.proton01ID = proton01ID;
+    }
+
+    public int getProton02ID() {
+        return proton02ID;
+    }
+
+    public void setProton02ID(int proton02ID) {
+        this.proton02ID = proton02ID;
+    }
+
+    private int proton01ID=0;
+    private int proton02ID=0;
 
     public Experiment() {
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("Experiment:  "+uuid +"\n");
+        strBuilder.append("timestamp:   "+getDateTimeStamp()+"\n");
+        strBuilder.append("Proton01ID:  "+proton01ID);
+        strBuilder.append("Proton02ID:  "+proton02ID);
+        if(!isHiggsBosonFound) {
+            return strBuilder.toString();
+        }
+        strBuilder.append("higgsBlockID:"+higgsBlockID);
+        strBuilder.append("higgsBlock:  "+"'"+blocks[higgsBlockID].getStructure()+"'");
+        return strBuilder.toString();
     }
 }

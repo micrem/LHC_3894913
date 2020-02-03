@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProtonTrap {
 
@@ -20,34 +17,35 @@ public class ProtonTrap {
     }
 
     public void loadData(String dataFilePath){
-        List<String> list = new ArrayList<>();
+        int protonCharacter=0;
+        int[][][] protonMatrix= new int[100][100][100];
+        int m,n,o;
         try (BufferedReader br = Files.newBufferedReader(Paths.get(dataFilePath))) {
-
-            //br returns as stream and convert it into a List
-            list = br.lines().collect(Collectors.toList());
-
+            for (int i = 0; i < 1000000; i++) {
+                protonCharacter = br.read();
+                m = i/10000;
+                n = (i/100)%100;
+                o = i%100;
+                protonMatrix[m][n][o]=protonCharacter;
+            }
+            protons[protonCounter]=new Proton(protonCounter+1);
+            protons[protonCounter].setStructure(protonMatrix);
+            protonCounter++;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        int[][][] protonStruct= new int[100][100][100];
-        for (int i = 0; i < 1000000; i++) {
-            protonStruct[i/10000][(i/100)%100][i%10000]=list.iterator().next().charAt(i);
-        }
-        protons[protonCounter++].setStructure(protonStruct);
-
     }
 
     public void release(){
-        //send proton to ring
     }
 
     public Proton getProton() {
         if(protonCounter<=0) return null;
-        return protons[protonCounter--];
+        return protons[--protonCounter];
     }
 
 
-    public Ring getRing() {
+    public Ring getRing(){
         return ring;
     }
 
@@ -55,8 +53,5 @@ public class ProtonTrap {
         this.ring = ring;
     }
 
-    public static void main(String[] args) {
-
-    }
 
 }

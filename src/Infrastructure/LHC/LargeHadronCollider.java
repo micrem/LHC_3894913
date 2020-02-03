@@ -29,14 +29,11 @@ public class LargeHadronCollider {
 
     private ControlCenter controlCenter;
 
-    public LargeHadronCollider(Building building, Ring ring, ControlCenter controlCenter) {
-        setBuilding(building);
-        setControlCenter(controlCenter);
-        setRing(ring);
+    public LargeHadronCollider() {
     }
 
     public ControlCenter getControlCenter() {
         return controlCenter;
     }
-    //do work
+
 }

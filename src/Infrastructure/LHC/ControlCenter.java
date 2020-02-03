@@ -28,21 +28,22 @@ public class ControlCenter {
     }
 
     public void startExperiment(){
-        eventBus.post(new EventRunExperimentFull(0));
-
+        eventBus.post(new EventRunExperimentFull(InitialEnergy.e25));
     }
 
     public void startExperment(ExperimentScope scope){
-
+        eventBus.post(new EventRunExperimentPartial(scope,InitialEnergy.e25));
     }
 
     public void setExperiment(Experiment experiment){
         this.experiment = experiment;
     };
 
+    public static void main(String[] args) {
+        ControlCenter cc = new ControlCenter();
+        IDetector detector = new Detector();
 
+        Ring ring = new Ring(new LargeHadronCollider(), detector);
 
-
-
-
+    }
 }
