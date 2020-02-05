@@ -11,7 +11,6 @@ public class Block {
     }
 
 
-
     public String getStructure() {
         return structure;
     }
@@ -19,4 +18,5 @@ public class Block {
     public void setStructure(String structure) {
         this.structure = structure;
     }
+
 }

@@ -2,7 +2,7 @@ package Infrastructure.LHC;
 
 public enum Configuration {
     instance;
-    public SearchAlgorithm typeOfSearchAlgorithm = SearchAlgorithm.Native;
+    public SearchAlgorithm typeOfSearchAlgorithm = SearchAlgorithm.BoyerMoore;
 
     public String fileSeparator = System.getProperty("file.separator");
     public String userDirectory = System.getProperty("user.dir");
@@ -16,7 +16,6 @@ public enum Configuration {
 
 
     public static void main(String[] args) {
-
         System.out.println(Configuration.instance.fullPathToJavaArchive);
     }
 

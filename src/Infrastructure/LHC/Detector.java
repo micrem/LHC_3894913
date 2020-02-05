@@ -10,11 +10,12 @@ import java.net.URLClassLoader;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.LinkedList;
+import java.util.List;
 
-public class Detector implements IDetector {
+public class Detector extends Subscriber implements IDetector {
     static private String higgsBosonStructure = "higgs";
     private boolean isActivated;
-    private LinkedList<Experiment> experimentList;
+    private List<Experiment> experimentList=new LinkedList<>();
     private Reader reader;
 
     private Class stringMatcherClass;
@@ -47,9 +48,17 @@ public class Detector implements IDetector {
 
     @Override
     public void search(Experiment experiment){
-        int higgsPos=-1;
-        for (int i = 0; i < 200000; i++) {
-            higgsPos=matchString(higgsBosonStructure, experiment.getBlocks()[i].getStructure());
+        int higgsPos;
+        int blocksToCheck;
+        switch (experiment.getScope()) {
+            case ESFull:blocksToCheck=200000; break;
+            case ES5:   blocksToCheck=5000; break;
+            case ES10:  blocksToCheck=10000; break;
+            case ES20:  blocksToCheck=20000; break;
+            default:    blocksToCheck=200000;
+        }
+        for (int i = 0; i < blocksToCheck; i++) {
+            higgsPos=matchString(experiment.getBlocks()[i].getStructure(), higgsBosonStructure);
             if(higgsPos>=0){
                 experiment.setHiggsBosonFound(true);
                 experiment.setHiggsBlockID(i);
@@ -63,15 +72,14 @@ public class Detector implements IDetector {
     public void receive(EventAnalyse event){
         setActivated(true);
         Instant before = Instant.now();
-        for (Experiment experiment : experimentList
-                ) {
+        for (Experiment experiment : experimentList ) {
             search(experiment);
             if (experiment.isHiggsBosonFound()){
                 Instant after = Instant.now();
                 long delta = Duration.between(before, after).toMillis();
+                System.out.println("Higgs particle found:");
                 System.out.println(experiment.toString());
                 System.out.println("Analysis runtime: "+delta+"ms");
-                System.out.println();
             }
         }
         setActivated(false);

@@ -9,7 +9,7 @@ public class ControlCenter {
     private EventBus eventBus = new EventBus("LHC");
     private Workplace workplace = new Workplace();
     private final String roomID="C01";
-    private Experiment experiment;
+
 
     public EventBus getEventBus() {
         return eventBus;
@@ -28,22 +28,32 @@ public class ControlCenter {
     }
 
     public void startExperiment(){
-        eventBus.post(new EventRunExperimentFull(InitialEnergy.e25));
+        eventBus.post(new EventRunExperimentFull(InitialEnergy.e50));
     }
 
     public void startExperment(ExperimentScope scope){
         eventBus.post(new EventRunExperimentPartial(scope,InitialEnergy.e25));
     }
 
-    public void setExperiment(Experiment experiment){
-        this.experiment = experiment;
-    };
+    private void analyse() {
+        eventBus.post(new EventAnalyse());
+    }
 
     public static void main(String[] args) {
         ControlCenter cc = new ControlCenter();
-        IDetector detector = new Detector();
+        Detector detector = new Detector();
+        LargeHadronCollider lhc = new LargeHadronCollider();
 
-        Ring ring = new Ring(new LargeHadronCollider(), detector);
+        Ring ring = new Ring(lhc, detector);
+        lhc.setRing(ring);
+        lhc.setControlCenter(cc);
 
+
+        cc.addSubscriber(ring);
+        cc.addSubscriber(detector);
+        for (int i = 0; i < 25; i++) {
+            cc.startExperment(ExperimentScope.ESFull);
+        }
+        cc.analyse();
     }
 }

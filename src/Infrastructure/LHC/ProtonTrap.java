@@ -16,8 +16,8 @@ public class ProtonTrap {
         this.id = id;
     }
 
-    public void loadData(String dataFilePath){
-        int protonCharacter=0;
+    public void loadData(String dataFilePath, int protonID){
+        int protonCharacter;
         int[][][] protonMatrix= new int[100][100][100];
         int m,n,o;
         try (BufferedReader br = Files.newBufferedReader(Paths.get(dataFilePath))) {
@@ -28,7 +28,7 @@ public class ProtonTrap {
                 o = i%100;
                 protonMatrix[m][n][o]=protonCharacter;
             }
-            protons[protonCounter]=new Proton(protonCounter+1);
+            protons[protonCounter]=new Proton(protonID);
             protons[protonCounter].setStructure(protonMatrix);
             protonCounter++;
         } catch (IOException e) {
@@ -37,9 +37,10 @@ public class ProtonTrap {
     }
 
     public void release(){
+        ring.receiveProton(this.id,getProton());
     }
 
-    public Proton getProton() {
+    private Proton getProton() {
         if(protonCounter<=0) return null;
         return protons[--protonCounter];
     }

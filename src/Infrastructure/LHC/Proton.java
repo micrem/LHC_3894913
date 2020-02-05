@@ -1,5 +1,7 @@
 package Infrastructure.LHC;
 
+import java.util.Iterator;
+
 public class Proton {
     private ProtonTrap protonTrap;
     private int[][][] structure = new int[100][100][100];
@@ -16,10 +18,6 @@ public class Proton {
 
     public Proton(int id) {
         this.id = id;
-    }
-
-    public Proton() {
-        id=999;
     }
 
     public int[][][] getStructure() {
@@ -44,5 +42,56 @@ public class Proton {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public Iterator<String> getBlockIterator(){
+        return new blockIterator(this);
+    }
+
+    private class blockIterator implements Iterator<String>{
+        Proton proton;
+        int blockIteratorCounter=0;
+        public blockIterator(Proton proton) {
+            this.proton = proton;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return blockIteratorCounter<200000;
+        }
+
+        @Override
+        public String next() {
+            StringBuilder strBuilder = new StringBuilder();
+            int dim0, dim1, dim2, partOffset;
+            for (int i = 0; i < 5; i++) {
+                partOffset = 5 * blockIteratorCounter+i;
+                dim0 = partOffset / 10000;
+                dim1 = (partOffset / 100) % 100;
+                dim2 = partOffset % 100;
+                strBuilder.append((char) structure[dim0][dim1][dim2]);
+            }
+            blockIteratorCounter++;
+            return strBuilder.toString();
+        }
+    }
+
+    public static void main(String[] args) {
+        testIteratorCode(199999);
+    }
+
+    private static void testIteratorCode(int index) {
+        //StringBuilder strBuilder = new StringBuilder();
+        int blockIteratorCounter = index;
+        int dim0, dim1, dim2, partOffset;
+        for (int i = 0; i < 5; i++) {
+            partOffset = 5 * blockIteratorCounter+i;
+            dim0 = partOffset / 10000;
+            dim1 = (partOffset / 100) % 100;
+            dim2 = partOffset % 100;
+            //strBuilder.append((char) proton.structure[dim0][dim1][dim2]);
+            System.out.println("X:"+dim0+" Y:"+dim1+" Z:"+dim2);
+        }
     }
 }

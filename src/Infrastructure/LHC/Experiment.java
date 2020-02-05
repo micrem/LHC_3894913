@@ -86,15 +86,14 @@ public class Experiment {
     @Override
     public String toString() {
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append("Experiment:  "+uuid +"\n");
-        strBuilder.append("timestamp:   "+getDateTimeStamp()+"\n");
-        strBuilder.append("Proton01ID:  "+proton01ID);
-        strBuilder.append("Proton02ID:  "+proton02ID);
-        if(!isHiggsBosonFound) {
-            return strBuilder.toString();
+        strBuilder.append("Experiment: "+uuid.toString().substring(0,5)+".. ");
+        if(isHiggsBosonFound) {
+            strBuilder.append(" higgsBlock ID:"+higgsBlockID);
+            strBuilder.append(" '"+blocks[higgsBlockID].getStructure()+"' ");
         }
-        strBuilder.append("higgsBlockID:"+higgsBlockID);
-        strBuilder.append("higgsBlock:  "+"'"+blocks[higgsBlockID].getStructure()+"'");
+        strBuilder.append(" ProtID: "+proton01ID+":"+proton02ID);
+        strBuilder.append(" timestamp:   "+getDateTimeStamp());
+
         return strBuilder.toString();
     }
 }
