@@ -128,6 +128,11 @@ public class CardReader implements ICardReader {
         return true;
     }
 
+    @Override
+    public boolean verifyPermission(Permission permission) {
+        return idCard.hasPermission(permission);
+    }
+
     protected boolean hasCard(){
         return idCard!=null;
     }

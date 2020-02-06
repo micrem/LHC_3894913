@@ -4,6 +4,7 @@ import Infrastructure.Security.Biometrics.Fingerprint;
 import Infrastructure.Security.Biometrics.FingerprintScanner;
 import Infrastructure.Security.Biometrics.Iris;
 import Infrastructure.Security.Biometrics.IrisScanner;
+import Infrastructure.Security.IDCard.ICardReader;
 import Infrastructure.Security.IDCard.IPasswordPad;
 import Infrastructure.Security.IDCard.IROIDCard;
 
@@ -33,7 +34,6 @@ public abstract class Person {
         fingerprint.scanFingerprint(this);
     }
 
-
     public String typePassword(IPasswordPad passwordPad) {
         return password;
     }
@@ -41,8 +41,6 @@ public abstract class Person {
     public int[][] getIrisScan(IrisScanner irisScanner) {
         return iris.toIntMatrix();
     }
-
-
 
     public String getName() {
         return name;
@@ -78,7 +76,11 @@ public abstract class Person {
 
     protected IROIDCard getCard(){
         return idCard;
-    };
+    }
+
+    public IROIDCard getCard(ICardReader cardReader){
+        return idCard;
+    }
 
     public String getFingerScan(FingerprintScanner fingerprintScanner) {
         return fingerprint.getFingerprint();

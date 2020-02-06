@@ -1,9 +1,12 @@
 package Infrastructure.LHC;
 
+import HumanResources.Person;
+import Infrastructure.Security.IDCard.CardReader;
+import Infrastructure.Security.IDCard.ICardReader;
+import Infrastructure.Security.Permission;
 import com.google.common.eventbus.Subscribe;
 
 import java.io.File;
-import java.io.Reader;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -15,8 +18,8 @@ import java.util.List;
 public class Detector extends Subscriber implements IDetector {
     static private String higgsBosonStructure = "higgs";
     private boolean isActivated;
-    private List<Experiment> experimentList=new LinkedList<>();
-    private Reader reader;
+    private List<Experiment> experimentList = new LinkedList<>();
+    private ICardReader cardReader = new CardReader(true);
 
     private Class stringMatcherClass;
     private Object port;
@@ -99,4 +102,10 @@ public class Detector extends Subscriber implements IDetector {
         experimentList.add(experiment);
     }
 
+    @Override
+    public List<Experiment> getExperiments(Person scientist) {
+        cardReader.insertCard(scientist.getCard(this.cardReader));
+        if(cardReader.verifyCardUser(scientist) && cardReader.verifyPermission(Permission.Researcher));
+        return experimentList;
+    }
 }

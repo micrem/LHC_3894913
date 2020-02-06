@@ -2,6 +2,7 @@ package Infrastructure.Security.IDCard;
 
 import HumanResources.Employee;
 import HumanResources.Person;
+import Infrastructure.Security.Permission;
 
 public interface ICardReader {
 
@@ -16,4 +17,6 @@ public interface ICardReader {
     void insertCard(IROIDCardRFID idCard);
 
     void changePassword(Employee employee);
+
+    boolean verifyPermission(Permission permission);
 }

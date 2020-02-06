@@ -1,6 +1,5 @@
 package HumanResources;
 
-import Infrastructure.Security.IDCard.CardReader;
 import Infrastructure.Security.IDCard.ICardReader;
 
 public abstract class Employee extends Person {
