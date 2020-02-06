@@ -5,7 +5,7 @@ import com.google.common.eventbus.Subscribe;
 
 import java.util.List;
 
-public interface IDetector {
+public interface IDetector extends IRODetector{
     boolean isActivated();
 
     void setActivated(boolean activated);
@@ -17,5 +17,4 @@ public interface IDetector {
 
     void addExperiment(Experiment experiment);
 
-    List<Experiment> getExperiments(Person scientist);
 }
