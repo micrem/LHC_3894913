@@ -11,7 +11,4 @@ public abstract class Employee extends Person {
         super(name);
     }
 
-    public void generateNewPassword(ICardReader cardReader) {
-        this.password = generatePassword();
-    }
 }

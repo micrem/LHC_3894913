@@ -5,7 +5,7 @@ import HumanResources.Employee;
 import HumanResources.Person;
 import Infrastructure.Security.Biometrics.FingerprintScanner;
 import Infrastructure.Security.Biometrics.IrisScanner;
-import Infrastructure.Security.CryptographyConfiguration;
+import Infrastructure.Security.SecurityConfiguration;
 import Infrastructure.Security.Permission;
 
 import java.time.LocalDate;
@@ -28,9 +28,9 @@ public class CardReader implements ICardReader {
     public boolean getPasswordInput(Person person) {
         validPasswordEntered = false;
         passwordPad.readUserInput(person);
-        if (!hasValidSymbols(passwordPad.getInput())) {return false;}
+        if (!hasValidSymbols(passwordPad.getBufferedInput())) {return false;}
         if (idCard.hasPermission(Permission.Visitor)) {
-            return passwordPad.getInput().length() == 5;
+            return passwordPad.getBufferedInput().length() == 5;
         }
         validPasswordEntered = true;
         return true;
@@ -42,7 +42,7 @@ public class CardReader implements ICardReader {
             return false;
         }
         if (idCard.isLocked()) {return false;}
-        if (!verifyPassword()) {return false;}
+        if (!verifyPassword(person)) {return false;}
         if (useIrisScanner){
             if(!verifyIris(person)){return false;}
         }
@@ -51,8 +51,7 @@ public class CardReader implements ICardReader {
         if(LocalDate.now().isAfter(idCard.getValidTo()) || LocalDate.now().isBefore(idCard.getValidFrom())){
             return false;
         }
-        if (verifyPassword()) return true;
-
+        if (verifyPassword(person)) return true;
         return false;
     }
 
@@ -76,10 +75,14 @@ public class CardReader implements ICardReader {
         return true;
     }
 
-    protected boolean verifyPassword() {
+    protected boolean verifyPassword(Person person) {
         if(!hasCard() || !validPasswordEntered) {return false;}
-        ICryptograph cryptograph = CryptographyConfiguration.instance.cryptograph;
-        String encodedPassword = cryptograph.encode(this.passwordPad.getInput());
+        ICryptograph cryptograph = SecurityConfiguration.instance.cryptograph;
+        String encodedDefaultPassword = cryptograph.encode(SecurityConfiguration.instance.defaultPassword);
+        if(encodedDefaultPassword.equals(idCard.getPassword()) && !person.getCard(this).hasPermission(Permission.Visitor)){
+            return changeDefaultPassword(person);
+        }
+        String encodedPassword = cryptograph.encode(this.passwordPad.getBufferedInput());
         if (encodedPassword.equals(idCard.getPassword())) {
             return true;
         }
@@ -104,18 +107,30 @@ public class CardReader implements ICardReader {
         return tempCard;
     }
 
-    public void changePassword(Employee employee){
+    public void changePassword(Person person){
         if (!hasCard()) return;
         //check old password
-        if (!getPasswordInput(employee)) return;
-        if (!verifyPassword()) return;
+        if (!getPasswordInput(person)) return;
+        if (!verifyPassword(person)) return;
         //get read interface
         IIDCardPWedit idCardPWwriteable = idCard.grantPasswordChangeAccess(this);
         //write new password
-        employee.generateNewPassword(this);
-        ICryptograph cryptograph = CryptographyConfiguration.instance.cryptograph;
-        String encodedPassword = cryptograph.encode(this.passwordPad.getInput());
+        person.generateNewPassword(this);
+        ICryptograph cryptograph = SecurityConfiguration.instance.cryptograph;
+        String encodedPassword = cryptograph.encode(this.passwordPad.getBufferedInput());
         idCardPWwriteable.setNewPassword(encodedPassword);
+    }
+
+    protected boolean changeDefaultPassword(Person person){
+        if (!hasCard()) return false;
+        if (!getPasswordInput(person)) return false;
+        //get read interface
+        IIDCardPWedit idCardPWwriteable = idCard.grantPasswordChangeAccess(this);
+        //write new password
+        ICryptograph cryptograph = SecurityConfiguration.instance.cryptograph;
+        String encodedPassword = cryptograph.encode(this.passwordPad.getBufferedInput());
+        idCardPWwriteable.setNewPassword(encodedPassword);
+        return true;
     }
 
 

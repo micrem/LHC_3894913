@@ -6,6 +6,6 @@ public interface IPasswordPad {
 
     void readUserInput(Person person);
 
-    String getInput();
+    String getBufferedInput();
 
 }

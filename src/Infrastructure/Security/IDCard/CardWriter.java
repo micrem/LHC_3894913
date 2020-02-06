@@ -2,7 +2,7 @@ package Infrastructure.Security.IDCard;
 
 import Cryptography.ICryptograph;
 import HumanResources.Person;
-import Infrastructure.Security.CryptographyConfiguration;
+import Infrastructure.Security.SecurityConfiguration;
 import Infrastructure.Security.Permission;
 
 import java.time.LocalDate;
@@ -43,8 +43,8 @@ public class CardWriter extends CardReader implements ICardWriter {
     @Override
     public void writePassword() {
         if (!canWrite()) return;
-        ICryptograph cryptograph = CryptographyConfiguration.instance.cryptograph;
-        String encodedPassword = cryptograph.encode(this.passwordPad.getInput());
+        ICryptograph cryptograph = SecurityConfiguration.instance.cryptograph;
+        String encodedPassword = cryptograph.encode(this.passwordPad.getBufferedInput());
         writeableCard.setPassword(encodedPassword);
     }
 

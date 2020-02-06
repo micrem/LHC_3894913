@@ -16,7 +16,7 @@ public interface ICardReader {
 
     void insertCard(IROIDCardRFID idCard);
 
-    void changePassword(Employee employee);
+    void changePassword(Person person);
 
     boolean verifyPermission(Permission permission);
 }

@@ -38,16 +38,28 @@ public abstract class Person {
         return password;
     }
 
-    public int[][] getIrisScan(IrisScanner irisScanner) {
-        return iris.toIntMatrix();
-    }
-
     public String getName() {
         return name;
     }
 
+    public int[][] getIrisScan(IrisScanner irisScanner) {
+        return iris.toIntMatrix();
+    }
+
+    public String getFingerScan(FingerprintScanner fingerprintScanner) {
+        return fingerprint.getFingerprint();
+    }
+
+    protected IROIDCard getCard(){
+        return idCard;
+    }
+
+    public IROIDCard getCard(ICardReader cardReader){
+        return getCard();
+    }
+
     protected void receiveCard(IROIDCard idCard){
-        this.idCard =idCard;
+        this.idCard = idCard;
     }
 
     protected String generatePassword() {
@@ -74,16 +86,8 @@ public abstract class Person {
 
     }
 
-    protected IROIDCard getCard(){
-        return idCard;
-    }
-
-    public IROIDCard getCard(ICardReader cardReader){
-        return idCard;
-    }
-
-    public String getFingerScan(FingerprintScanner fingerprintScanner) {
-        return fingerprint.getFingerprint();
+    public void generateNewPassword(ICardReader cardReader) {
+        this.password = generatePassword();
     }
 }
 

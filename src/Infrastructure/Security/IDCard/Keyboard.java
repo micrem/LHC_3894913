@@ -11,7 +11,7 @@ public class Keyboard implements IPasswordPad {
     }
 
     @Override
-    public String getInput() {
+    public String getBufferedInput() {
         return password;
     }
 
