@@ -89,5 +89,9 @@ public abstract class Person {
     public void generateNewPassword(ICardReader cardReader) {
         this.password = generatePassword();
     }
+
+    public int getId() {
+        return id;
+    }
 }
 
