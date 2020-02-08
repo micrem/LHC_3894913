@@ -2,11 +2,12 @@ package HumanResources;
 
 import java.util.HashMap;
 
-public enum EmployeeManagement {
+public enum EmployeeManagement implements IEmployeeManagement {
     instance;
 
     private HashMap<Integer, Employee> employeeMap;
 
+    @Override
     public void createEmployee(String name, String type){
         EmployeeType employeeType=null;
         Employee employee=null;
