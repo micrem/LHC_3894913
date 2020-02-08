@@ -132,4 +132,9 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
     public IIDCardMultichip getMultichipWriteAccess(ICardWriter cardWriter) {
         return null;
     }
+
+    @Override
+    public Integer getID() {
+        return id;
+    }
 }

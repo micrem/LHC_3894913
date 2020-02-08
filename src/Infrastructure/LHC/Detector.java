@@ -21,22 +21,13 @@ public class Detector extends Subscriber implements IDetector {
     private List<Experiment> experimentList = new LinkedList<>();
     private ICardReader cardReader = new CardReader(true);
 
-    private Class stringMatcherClass;
-    private Object port;
     private Method searchMethod;
+    private Object port;
 
-    /** @noinspection unchecked*/
+
     public Detector() {
-        try {
-            URL[] urls = {new File(Configuration.instance.subFolderPathToArchive).toURI().toURL()};
-            URLClassLoader urlClassLoader = new URLClassLoader(urls, Detector.class.getClassLoader());
-            stringMatcherClass = Class.forName(Configuration.instance.nameOfClass, true, urlClassLoader);
-            port = stringMatcherClass.getMethod("getInstance").invoke(null);
-            port = stringMatcherClass.getDeclaredField("port").get(port);
-            searchMethod = port.getClass().getMethod("search",String.class,String.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        searchMethod = Configuration.instance.searchMethod;
+        port = Configuration.instance.port;
     }
 
     @Override

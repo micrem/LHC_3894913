@@ -10,7 +10,6 @@ public class Block {
         return uuid;
     }
 
-
     public String getStructure() {
         return structure;
     }

@@ -6,11 +6,15 @@ import Infrastructure.Security.Permission;
 
 public interface ICardWriter extends ICardReader {
 
-    void scanIris(Person person);
+    ICardWriter scanIrisToCard(Person person);
 
-    void writePassword();
+    ICardWriter writePassword();
 
-    void finalizeCard(Person person);
+    ICardWriter finalizeCard(Person person);
 
-    void setPermission(Permission permission);
+    ICardWriter setPermission(Permission permission);
+
+    ICardWriter clearCard();
+
+    ICardWriter lockCard();
 }
