@@ -23,6 +23,8 @@ public enum Configuration {
     public Object port;
     public Method searchMethod;
 
+    public boolean useDatabase=false;
+
     /** @noinspection unchecked*/
     Configuration() {
         init();
@@ -30,9 +32,9 @@ public enum Configuration {
 
     void init(){
         try {
-            URL[] urls = {new File(Configuration.instance.subFolderPathToArchive).toURI().toURL()};
+            URL[] urls = {new File(subFolderPathToArchive).toURI().toURL()};
             URLClassLoader urlClassLoader = new URLClassLoader(urls, Detector.class.getClassLoader());
-            stringMatcherClass = Class.forName(Configuration.instance.nameOfClass, true, urlClassLoader);
+            stringMatcherClass = Class.forName(nameOfClass, true, urlClassLoader);
             port = stringMatcherClass.getMethod("getInstance").invoke(null);
             port = stringMatcherClass.getDeclaredField("port").get(port);
             searchMethod = port.getClass().getMethod("search", String.class, String.class);
