@@ -7,34 +7,43 @@ public class Experiment {
     private UUID uuid = UUID.randomUUID();
     private String dateTimeStamp;
     private boolean isHiggsBosonFound;
-    private int higgsBlockID=0;
+    private String higgsBlockID="";
     private ExperimentScope scope=ExperimentScope.ESFull;
+
+    private int proton01ID=0;
+    private int proton02ID=0;
 
     public ExperimentScope getScope() {
         return scope;
     }
 
-    public void setScope(ExperimentScope scope) {
-        this.scope = scope;
+    private Block[] blocks = new Block[200000];
+
+    public void setScope(String scopeName) {
+        this.scope = ExperimentScope.valueOf(scopeName);
+        //safety not needed, should be reasonable to crash if this fails
+//        boolean found = false;
+//        for (ExperimentScope scope: ExperimentScope.values()) {
+//            if (scopeName.equals(scope)) found = true;
+//        }
+//         if(found) {this.scope = ExperimentScope.valueOf(scopeName);}
+//         else { this.scope = ExperimentScope.ESFull ;}
     }
 
     public void setBlocks(Block[] blocks) {
         this.blocks = blocks;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setUuid(String uuid) {
+        this.uuid = UUID.fromString(uuid);
     }
 
     public void setDateTimeStamp(String dateTimeStamp) {
         this.dateTimeStamp = dateTimeStamp;
     }
-
     public void setHiggsBosonFound(boolean higgsBosonFound) {
         isHiggsBosonFound = higgsBosonFound;
     }
-
-    private Block[] blocks = new Block[200000];
 
     public Block[] getBlocks() {
         return blocks;
@@ -52,11 +61,11 @@ public class Experiment {
         return isHiggsBosonFound;
     }
 
-    public int getHiggsBlockID() {
+    public String getHiggsBlockID() {
         return higgsBlockID;
     }
 
-    public void setHiggsBlockID(int higgsBlockID) {
+    public void setHiggsBlockID(String higgsBlockID) {
         this.higgsBlockID = higgsBlockID;
     }
 
@@ -76,20 +85,19 @@ public class Experiment {
         this.proton02ID = proton02ID;
     }
 
-    private int proton01ID=0;
-    private int proton02ID=0;
-
-    public Experiment() {
-    }
-
-
     @Override
     public String toString() {
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append("Experiment: "+uuid.toString().substring(0,5)+".. ");
         if(isHiggsBosonFound) {
-            strBuilder.append(" higgsBlock ID:"+higgsBlockID);
-            strBuilder.append(" '"+blocks[higgsBlockID].getStructure()+"' ");
+            strBuilder.append(" higgsBlock ID:"+higgsBlockID.substring(0,5)+".. ");
+            for (Block block:blocks
+            ) {
+                if (block.getUuid().toString().equals(higgsBlockID)){
+                    strBuilder.append(" '"+block.getStructure()+"' ");
+                    break;
+                }
+            }
         }
         strBuilder.append(" ProtID: "+proton01ID+":"+proton02ID);
         strBuilder.append(" timestamp:   "+getDateTimeStamp());

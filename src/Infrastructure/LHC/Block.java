@@ -4,7 +4,9 @@ import java.util.UUID;
 
 public class Block {
     private final UUID uuid = UUID.randomUUID();
-    private String structure;
+    private String structure="";
+
+    private String experimentUUID="";
 
     public UUID getUuid() {
         return uuid;
@@ -18,4 +20,11 @@ public class Block {
         this.structure = structure;
     }
 
+    public String getExperimentUUID() {
+        return experimentUUID;
+    }
+
+    public void setExperimentUUID(String experimentUUID) {
+        this.experimentUUID = experimentUUID;
+    }
 }

@@ -37,7 +37,7 @@ public class ProtonTrap {
     }
 
     public void release(){
-        ring.receiveProton(this.id,getProton());
+        ring.receiveProton(this.id, getProton());
     }
 
     private Proton getProton() {

@@ -4,14 +4,14 @@ import HumanResources.Person;
 import Infrastructure.Security.IDCard.CardReader;
 import Infrastructure.Security.IDCard.ICardReader;
 import Infrastructure.Security.Permission;
+import PersistanceLayer.IPersistanceLayer;
+import PersistanceLayer.PersistanceLayerDB;
 import com.google.common.eventbus.Subscribe;
 
-import java.io.File;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,13 +21,26 @@ public class Detector extends Subscriber implements IDetector {
     private List<Experiment> experimentList = new LinkedList<>();
     private ICardReader cardReader = new CardReader(true);
 
+    private IPersistanceLayer persistanceLayer = PersistanceLayerDB.instance;
+
     private Method searchMethod;
     private Object port;
-
 
     public Detector() {
         searchMethod = Configuration.instance.searchMethod;
         port = Configuration.instance.port;
+        if(Configuration.instance.useDatabase) {
+            experimentList = persistanceLayer.getExperiments();
+        }
+    }
+
+
+    public static void main(String[] args) {
+        Experiment ex = new Experiment();
+        ex.setDateTimeStamp(LocalTime.now().toString());
+        Detector detector = new Detector();
+        detector.experimentList.add(ex);
+        //detector.writeToDB();
     }
 
     @Override
@@ -41,7 +54,7 @@ public class Detector extends Subscriber implements IDetector {
     }
 
     @Override
-    public void search(Experiment experiment){
+    public void analyse(Experiment experiment){
         int higgsPos;
         int blocksToCheck;
         switch (experiment.getScope()) {
@@ -51,11 +64,12 @@ public class Detector extends Subscriber implements IDetector {
             case ES20:  blocksToCheck=20000; break;
             default:    blocksToCheck=200000;
         }
+        System.out.println("analysing experiment with protons "+experiment.getProton01ID()+" "+experiment.getProton02ID());
         for (int i = 0; i < blocksToCheck; i++) {
             higgsPos=matchString(experiment.getBlocks()[i].getStructure(), higgsBosonStructure);
             if(higgsPos>=0){
                 experiment.setHiggsBosonFound(true);
-                experiment.setHiggsBlockID(i);
+                experiment.setHiggsBlockID(experiment.getBlocks()[i].getUuid().toString());
                 return;
             }
         }
@@ -67,7 +81,7 @@ public class Detector extends Subscriber implements IDetector {
         setActivated(true);
         Instant before = Instant.now();
         for (Experiment experiment : experimentList ) {
-            search(experiment);
+            analyse(experiment);
             if (experiment.isHiggsBosonFound()){
                 Instant after = Instant.now();
                 long delta = Duration.between(before, after).toMillis();
@@ -90,6 +104,7 @@ public class Detector extends Subscriber implements IDetector {
 
     @Override
     public void addExperiment(Experiment experiment){
+        if (experiment == null) {return;}
         experimentList.add(experiment);
     }
 
@@ -98,5 +113,22 @@ public class Detector extends Subscriber implements IDetector {
         cardReader.insertCard(scientist.getCard(this.cardReader));
         if(cardReader.verifyCardUser(scientist) && cardReader.verifyPermission(Permission.Researcher));
         return experimentList;
+    }
+
+    public void writeToDB(){
+        persistanceLayer.setupConnection();
+        persistanceLayer.createTables();
+        for (Experiment experiment : experimentList) {
+            if ( experiment.getProton02ID()/2<15 || experiment.getProton02ID()/2>20) continue;
+            System.out.println("writing to DB experiment "+experiment.getProton01ID()+"+"+experiment.getProton02ID());
+            persistanceLayer.insert(experiment);
+            int i=0;
+            for (Block block : experiment.getBlocks()
+            ) {
+                if(++i%10000==0) System.out.print(".");
+                persistanceLayer.insert(block);
+            }
+            System.out.println("done");
+        }
     }
 }

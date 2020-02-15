@@ -35,7 +35,7 @@ public class ControlCenter {
         eventBus.post(new EventRunExperimentPartial(scope,InitialEnergy.e25));
     }
 
-    private void analyse() {
+    private void analyseAll() {
         eventBus.post(new EventAnalyse());
     }
 
@@ -48,12 +48,13 @@ public class ControlCenter {
         lhc.setRing(ring);
         lhc.setControlCenter(cc);
 
-
         cc.addSubscriber(ring);
         cc.addSubscriber(detector);
         for (int i = 0; i < 25; i++) {
+            System.out.println("running experiment "+i);
             cc.startExperment(ExperimentScope.ESFull);
         }
-        cc.analyse();
+        cc.analyseAll();
+        //detector.writeToDB();
     }
 }

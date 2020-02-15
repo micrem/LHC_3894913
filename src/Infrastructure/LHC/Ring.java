@@ -1,6 +1,7 @@
 package Infrastructure.LHC;
 import com.google.common.eventbus.Subscribe;
 
+import java.io.File;
 import java.time.LocalTime;
 import java.util.Iterator;
 
@@ -48,9 +49,11 @@ public class Ring extends Subscriber {
         protonTraps[1] = new ProtonTrap(ProtonTrapID.B);
         protonTraps[0].setRing(this);
         protonTraps[1].setRing(this);
+        if(Configuration.instance.useDatabase) return;
         for (int i = 1; i <= numOfFiles; i++) {
             int trapIndex = (i-1)%2; //0 or 1, first or second trap
             String filename = fileDirectory+fileNamePart+(i<10?("0"+i):i)+fileEnding;
+
             protonTraps[trapIndex].loadData(filename, i);
         }
     }
@@ -79,7 +82,7 @@ public class Ring extends Subscriber {
                 initE = 100000;
                 break;
         }
-        currentExperiment.setScope(expScope);
+        currentExperiment.setScope(expScope.toString());
         activate(initE);
         performExperiment();
         detector.addExperiment(currentExperiment);
@@ -123,6 +126,10 @@ public class Ring extends Subscriber {
     }
 
     public void collide(){
+        if (protonA == null || protonB == null) {
+            currentExperiment=null;
+            return;
+        }
         Block blocks[] = assembleBlocks(protonA,  protonB);
         currentExperiment.setBlocks(blocks);
         currentExperiment.setDateTimeStamp(LocalTime.now().toString());
@@ -137,6 +144,8 @@ public class Ring extends Subscriber {
         for (int blockIndex = 0; blockIndex < returnBlocks.length; blockIndex++) {
             returnBlocks[blockIndex] = new Block();
             returnBlocks[blockIndex].setStructure(proton1Iterator.next()+proton2Iterator.next());
+            returnBlocks[blockIndex].setExperimentUUID(currentExperiment.getUuid().toString());
+
         }
         return returnBlocks;
     }
@@ -166,5 +175,4 @@ public class Ring extends Subscriber {
             ring.collide();
         }
     }
-
 }
