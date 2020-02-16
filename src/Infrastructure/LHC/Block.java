@@ -3,14 +3,10 @@ package Infrastructure.LHC;
 import java.util.UUID;
 
 public class Block {
-    private final UUID uuid = UUID.randomUUID();
+    private UUID uuid = UUID.randomUUID();
+
     private String structure="";
-
     private String experimentUUID="";
-
-    public UUID getUuid() {
-        return uuid;
-    }
 
     public String getStructure() {
         return structure;
@@ -26,5 +22,13 @@ public class Block {
 
     public void setExperimentUUID(String experimentUUID) {
         this.experimentUUID = experimentUUID;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = UUID.fromString(uuid);
     }
 }

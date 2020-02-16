@@ -30,7 +30,9 @@ public class Detector extends Subscriber implements IDetector {
         searchMethod = Configuration.instance.searchMethod;
         port = Configuration.instance.port;
         if(Configuration.instance.useDatabase) {
+            persistanceLayer.setupConnection();
             experimentList = persistanceLayer.getExperiments();
+            persistanceLayer.shutdown();
         }
     }
 

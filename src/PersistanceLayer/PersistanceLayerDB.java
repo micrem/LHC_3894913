@@ -141,7 +141,7 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("CREATE TABLE Blocks ( ");
         sqlStringBuilder.append("uuid VARCHAR(256) NOT NULL").append(",");
-        sqlStringBuilder.append("name VARCHAR(256) NOT NULL").append(",");
+        sqlStringBuilder.append("structure VARCHAR(256) NOT NULL").append(",");
         sqlStringBuilder.append("Experiment VARCHAR(256) NOT NULL").append(",");
         sqlStringBuilder.append("PRIMARY KEY (uuid)");
         sqlStringBuilder.append(" )");
@@ -231,13 +231,36 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
                     retrievedExperiments.add(retrievedExperiment);
                 }
             }
-
-
             resultSet.close();
+            for (Experiment exp :retrievedExperiments) {
+                Block[] blocks = getBlocksForExperiment(exp);
+            }
             return retrievedExperiments;
         } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
         }
         return retrievedExperiments;
+    }
+
+    private Block[] getBlocksForExperiment(Experiment experiment) {
+        Block[] blocks = new Block[200000];
+        int index=0;
+        try {
+            String expUUID = experiment.getUuid().toString();
+            String sqlStatement = "SELECT * from BLOCKS where BLOCKS.EXPERIMENT='"+expUUID+"'";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlStatement);
+            while (resultSet.next()){
+                Block block = new Block();
+                block.setExperimentUUID(expUUID);
+                block.setStructure(resultSet.getString("Structure"));
+                block.setUuid(resultSet.getString("UUID"));
+                blocks[index++]=block;
+            }
+            if(index<200000) System.out.println("  Only loaded "+ index + " of 200000 blocks for experiment "+expUUID+"!");
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+        return blocks;
     }
 }

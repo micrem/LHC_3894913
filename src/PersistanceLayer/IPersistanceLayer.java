@@ -20,5 +20,5 @@ public interface IPersistanceLayer {
 
     void shutdown();
 
-    abstract List<Experiment> getExperiments();
+    List<Experiment> getExperiments();
 }

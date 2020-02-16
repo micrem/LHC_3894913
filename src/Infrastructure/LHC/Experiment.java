@@ -93,6 +93,7 @@ public class Experiment {
             strBuilder.append(" higgsBlock ID:"+higgsBlockID.substring(0,5)+".. ");
             for (Block block:blocks
             ) {
+                if (block==null)continue;
                 if (block.getUuid().toString().equals(higgsBlockID)){
                     strBuilder.append(" '"+block.getStructure()+"' ");
                     break;
