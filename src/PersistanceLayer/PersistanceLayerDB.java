@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum PersistanceLayerDB implements IPersistanceLayer{
+public enum PersistanceLayerDB implements IPersistanceLayer {
     instance;
     private final String userDirectory = System.getProperty("user.dir");
     private final String fileSeparator = System.getProperty("file.separator");
@@ -55,7 +55,7 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
     }
 
     @Override
-    public void createTables(){
+    public void createTables() {
         //attempt to create database in case it doesn't exist yet
         createTableExperiments();
         createTableBlocks();
@@ -63,31 +63,29 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
     }
 
 
-
-
     private void createTableExperiments() {
 
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("CREATE TABLE Experiments ( ");
-            sqlStringBuilder.append("uuid VARCHAR(256) NOT NULL").append(",");
-            sqlStringBuilder.append("dateTimeStamp VARCHAR(256) NOT NULL").append(",");
-            sqlStringBuilder.append("isHiggsBosonFound BOOLEAN NOT NULL").append(",");
-            sqlStringBuilder.append("higgsBlockID VARCHAR(256)").append(",");
-            sqlStringBuilder.append("scope VARCHAR(256) NOT NULL").append(",");
-            sqlStringBuilder.append("proton01ID INTEGER DEFAULT 0").append(",");
-            sqlStringBuilder.append("proton02ID INTEGER DEFAULT 0").append(",");
-            sqlStringBuilder.append("PRIMARY KEY (uuid)");
+        sqlStringBuilder.append("uuid VARCHAR(256) NOT NULL").append(",");
+        sqlStringBuilder.append("dateTimeStamp VARCHAR(256) NOT NULL").append(",");
+        sqlStringBuilder.append("isHiggsBosonFound BOOLEAN NOT NULL").append(",");
+        sqlStringBuilder.append("higgsBlockID VARCHAR(256)").append(",");
+        sqlStringBuilder.append("scope VARCHAR(256) NOT NULL").append(",");
+        sqlStringBuilder.append("proton01ID INTEGER DEFAULT 0").append(",");
+        sqlStringBuilder.append("proton02ID INTEGER DEFAULT 0").append(",");
+        sqlStringBuilder.append("PRIMARY KEY (uuid)");
         sqlStringBuilder.append(" )");
         // System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
         update(sqlStringBuilder.toString());
     }
 
     @Override
-    public void insert(Experiment experiment){
+    public void insert(Experiment experiment) {
         StringBuilder sqlStringStringBuilder = new StringBuilder();
         sqlStringStringBuilder.append("INSERT INTO Experiments values ('" +
                 experiment.getUuid() + "','" +
-                experiment.getDateTimeStamp()  + "'," +
+                experiment.getDateTimeStamp() + "'," +
                 experiment.isHiggsBosonFound() + ",'" +
                 experiment.getHiggsBlockID() + "','" +
                 experiment.getScope() + "'," +
@@ -128,7 +126,7 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
     }
 
     @Override
-    public void dropTableExperiments(){
+    public void dropTableExperiments() {
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("DROP TABLE Experiments");
         // System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
@@ -155,7 +153,7 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
         StringBuilder sqlStringStringBuilder = new StringBuilder();
         sqlStringStringBuilder.append("INSERT INTO blocks values ('" +
                 block.getUuid() + "','" +
-                block.getStructure()  + "','" +
+                block.getStructure() + "','" +
                 block.getExperimentUUID() +
                 "')");
         update(sqlStringStringBuilder.toString());
@@ -167,11 +165,11 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
             int result = statement.executeUpdate(sqlStatement);
 
             if (result == -1) {
-                 System.out.println("error executing " + sqlStatement);
+                System.out.println("error executing " + sqlStatement);
             }
             statement.close();
         } catch (SQLException sqle) {
-             System.out.println("SQL error: " + sqle.getMessage());
+            System.out.println("SQL error: " + sqle.getMessage());
         }
     }
 //    private void dropTableCustomers() {
@@ -193,15 +191,15 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
 
             while (resultSet.next()) {
                 if (numberOfColumns == 1) {
-                     System.out.println(resultSet.getString(1));
+                    System.out.println(resultSet.getString(1));
                 } else if (numberOfColumns == 2) {
-                     System.out.println(resultSet.getString(1) + " - " + resultSet.getString(2));
+                    System.out.println(resultSet.getString(1) + " - " + resultSet.getString(2));
                 }
             }
 
             resultSet.close();
         } catch (SQLException sqle) {
-             System.out.println(sqle.getMessage());
+            System.out.println(sqle.getMessage());
         }
     }
 
@@ -227,13 +225,14 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
             ResultSet resultSet = statement.executeQuery(sqlStatement);
             while (resultSet.next()) {
                 Experiment retrievedExperiment = getExperimentFromResult(resultSet);
-                if(retrievedExperiment!=null){
+                if (retrievedExperiment != null) {
                     retrievedExperiments.add(retrievedExperiment);
                 }
             }
             resultSet.close();
-            for (Experiment exp :retrievedExperiments) {
+            for (Experiment exp : retrievedExperiments) {
                 Block[] blocks = getBlocksForExperiment(exp);
+                exp.setBlocks(blocks);
             }
             return retrievedExperiments;
         } catch (SQLException sqle) {
@@ -244,20 +243,21 @@ public enum PersistanceLayerDB implements IPersistanceLayer{
 
     private Block[] getBlocksForExperiment(Experiment experiment) {
         Block[] blocks = new Block[200000];
-        int index=0;
+        int index = 0;
         try {
-            String expUUID = experiment.getUuid().toString();
-            String sqlStatement = "SELECT * from BLOCKS where BLOCKS.EXPERIMENT='"+expUUID+"'";
+            String expUUID = experiment.getUuid();
+            String sqlStatement = "SELECT * from BLOCKS where BLOCKS.EXPERIMENT='" + expUUID + "'";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlStatement);
-            while (resultSet.next()){
-                Block block = new Block();
+            while (resultSet.next()) {
+                Block block = new Block(false);
                 block.setExperimentUUID(expUUID);
                 block.setStructure(resultSet.getString("Structure"));
                 block.setUuid(resultSet.getString("UUID"));
-                blocks[index++]=block;
+                blocks[index++] = block;
             }
-            if(index<200000) System.out.println("  Only loaded "+ index + " of 200000 blocks for experiment "+expUUID+"!");
+            if (index < 200000)
+                System.out.println("  Only loaded " + index + " of 200000 blocks for experiment " + expUUID + "!");
         } catch (SQLException sqle) {
             System.out.println(sqle.getMessage());
         }

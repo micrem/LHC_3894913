@@ -1,6 +1,9 @@
 package Infrastructure.LHC;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Experiment {
 
@@ -49,8 +52,8 @@ public class Experiment {
         return blocks;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public String getUuid() {
+        return uuid.toString();
     }
 
     public String getDateTimeStamp() {
@@ -88,20 +91,23 @@ public class Experiment {
     @Override
     public String toString() {
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append("Experiment: "+uuid.toString().substring(0,5)+".. ");
+        strBuilder.append("Experiment: ").append(uuid.toString().substring(0,5)).append(".. ");
+        strBuilder.append(" ProtID: ").append(proton01ID).append(":").append(proton02ID);
         if(isHiggsBosonFound) {
-            strBuilder.append(" higgsBlock ID:"+higgsBlockID.substring(0,5)+".. ");
-            for (Block block:blocks
-            ) {
-                if (block==null)continue;
-                if (block.getUuid().toString().equals(higgsBlockID)){
-                    strBuilder.append(" '"+block.getStructure()+"' ");
-                    break;
-                }
-            }
+            strBuilder.append(" higgsBlock ID:").append(higgsBlockID.substring(0, 5)).append(".. ");
+//            for (int i=0;i<blocks.length;i++
+//            ) {
+//                Block block = blocks[i];
+//                if (block==null)continue;
+//                if (block.getUuid().equals(higgsBlockID)){
+//
+//                    break;
+//                }
+//            }
+            final List<Block> blocksFiltered = Arrays.stream(this.blocks).filter(block -> block.getUuid().equals(higgsBlockID)).collect(Collectors.toList());
+            strBuilder.append(" '").append(blocksFiltered.get(0).getStructure()).append("' ");
         }
-        strBuilder.append(" ProtID: "+proton01ID+":"+proton02ID);
-        strBuilder.append(" timestamp:   "+getDateTimeStamp());
+        strBuilder.append(" timestamp:   ").append(getDateTimeStamp());
 
         return strBuilder.toString();
     }

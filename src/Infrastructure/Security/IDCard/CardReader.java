@@ -59,7 +59,7 @@ public class CardReader implements ICardReader {
         if (idCard.getVersion()==IDCardVersion.MultiChip){
             String userFingerPrint = person.getFingerScan(fingerScanner);
             String cardFingerPrint = idCard.getMultichipReadAccess(this).getFingerprint(this);
-            if (userFingerPrint!=cardFingerPrint){ return false;}
+            if (!userFingerPrint.equals(cardFingerPrint)){ return false;}
         }
         return true;
     }
