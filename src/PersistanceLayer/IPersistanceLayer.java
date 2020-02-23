@@ -16,7 +16,7 @@ public interface IPersistanceLayer {
 
     void insert(Block block);
 
-    Experiment getExperiment(int index );
+    Experiment getExperiment(int index);
 
     void shutdown();
 

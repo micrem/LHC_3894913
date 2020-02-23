@@ -7,7 +7,7 @@ public class Keyboard implements IPasswordPad {
 
     @Override
     public void readUserInput(Person person) {
-        password =  person.typePassword(this);
+        password = person.typePassword(this);
     }
 
     @Override

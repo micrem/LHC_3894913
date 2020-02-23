@@ -1,11 +1,8 @@
 package Infrastructure.LHC;
 
-import HumanResources.Person;
 import com.google.common.eventbus.Subscribe;
 
-import java.util.List;
-
-public interface IDetector extends IRODetector{
+public interface IDetector extends IRODetector {
     boolean isActivated();
 
     void setActivated(boolean activated);

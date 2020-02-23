@@ -6,6 +6,10 @@ public class LargeHadronCollider {
     private USP[] usp = new USP[2];
     private Building building;
     private Ring ring;
+    private ControlCenter controlCenter;
+
+    public LargeHadronCollider() {
+    }
 
     public Building getBuilding() {
         return building;
@@ -23,17 +27,12 @@ public class LargeHadronCollider {
         this.ring = ring;
     }
 
-    public void setControlCenter(ControlCenter controlCenter) {
-        this.controlCenter = controlCenter;
-    }
-
-    private ControlCenter controlCenter;
-
-    public LargeHadronCollider() {
-    }
-
     public ControlCenter getControlCenter() {
         return controlCenter;
+    }
+
+    public void setControlCenter(ControlCenter controlCenter) {
+        this.controlCenter = controlCenter;
     }
 
 }

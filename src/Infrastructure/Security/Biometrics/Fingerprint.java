@@ -8,24 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 
 public class Fingerprint {
-    public String getFingerprint() {
-        return fingerprint;
-    }
-
     private String fingerprint;
-
-    public void scanFingerprint(Person person) {
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-            md.update(person.getName().getBytes());
-            byte[] digest = md.digest();
-            String myChecksum = bytesToHex(digest).toUpperCase();
-            fingerprint = myChecksum;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
 
     private static String bytesToHex(byte[] hashInBytes) {
 
@@ -46,5 +29,22 @@ public class Fingerprint {
         System.out.println(f.getFingerprint());
         f.scanFingerprint(person2);
         System.out.println(f.getFingerprint());
+    }
+
+    public String getFingerprint() {
+        return fingerprint;
+    }
+
+    public void scanFingerprint(Person person) {
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+            md.update(person.getName().getBytes());
+            byte[] digest = md.digest();
+            String myChecksum = bytesToHex(digest).toUpperCase();
+            fingerprint = myChecksum;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }

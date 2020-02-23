@@ -7,7 +7,6 @@ import Infrastructure.Security.IDCard.CardWriter;
 import Infrastructure.Security.IDCard.ICardWriter;
 import Infrastructure.Security.IDCard.IROIDCard;
 
-
 import java.util.HashMap;
 
 public enum IDCardManagement implements IIDCardManagement {
@@ -18,24 +17,24 @@ public enum IDCardManagement implements IIDCardManagement {
     private ICardWriter cardWriter;
 
     IDCardManagement() {
-        cardWriter= new CardWriter(true);
+        cardWriter = new CardWriter(true);
     }
 
     @Override
-    public void assignIDCard(IROIDCard idCard, Employee employee){
+    public void assignIDCard(IROIDCard idCard, Employee employee) {
         //todo: where should this idCard come from? why is it not generated here?
-        hrWorker.assignCard(employee,idCard);
-        idCardHashMap.put(idCard.getID(),idCard);
+        hrWorker.assignCard(employee, idCard);
+        idCardHashMap.put(idCard.getID(), idCard);
     }
 
     @Override
-    public void lockIDCard(IROIDCard idCard){
+    public void lockIDCard(IROIDCard idCard) {
         cardWriter.insertCard(idCard);
         cardWriter.lockCard().ejectCard();
     }
 
     @Override
-    public void clearIDCard(IROIDCard idCard){
+    public void clearIDCard(IROIDCard idCard) {
         cardWriter.insertCard(idCard);
         cardWriter.clearCard().ejectCard();
         idCardHashMap.remove(idCard.getID());

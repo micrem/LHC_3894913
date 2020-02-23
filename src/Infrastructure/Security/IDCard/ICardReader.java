@@ -1,6 +1,5 @@
 package Infrastructure.Security.IDCard;
 
-import HumanResources.Employee;
 import HumanResources.Person;
 import Infrastructure.Security.Permission;
 

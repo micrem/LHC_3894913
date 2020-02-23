@@ -1,7 +1,7 @@
 package Infrastructure.LHC;
+
 import com.google.common.eventbus.Subscribe;
 
-import java.io.File;
 import java.time.LocalTime;
 import java.util.Iterator;
 
@@ -10,7 +10,7 @@ public class Ring extends Subscriber {
     public String fileSeparator = System.getProperty("file.separator");
     public String fileEnding = ".txt";
     public String fileNamePart = "proton_";
-    public String fileDirectory = userDirectory + fileSeparator + "rsc" + fileSeparator + "protoData" +fileSeparator;
+    public String fileDirectory = userDirectory + fileSeparator + "rsc" + fileSeparator + "protoData" + fileSeparator;
 
     private LargeHadronCollider lhc;
     private ProtonTrap[] protonTraps;
@@ -21,6 +21,31 @@ public class Ring extends Subscriber {
     private Proton protonB;
     private boolean isActivated;
     private int energy;
+
+    public Ring(LargeHadronCollider lhc, IDetector detector) {
+        int numOfFiles = 50;
+        this.lhc = lhc;
+        this.detector = detector;
+        protonTraps = new ProtonTrap[2];
+        protonTraps[0] = new ProtonTrap(ProtonTrapID.A);
+        protonTraps[1] = new ProtonTrap(ProtonTrapID.B);
+        protonTraps[0].setRing(this);
+        protonTraps[1].setRing(this);
+        if (Configuration.instance.useDatabase) return;
+        for (int i = 1; i <= numOfFiles; i++) {
+            int trapIndex = (i - 1) % 2; //0 or 1, first or second trap
+            String filename = fileDirectory + fileNamePart + (i < 10 ? ("0" + i) : i) + fileEnding;
+
+            protonTraps[trapIndex].loadData(filename, i);
+        }
+    }
+
+    public static void main(String[] args) {
+        Ring ring = new Ring(new LargeHadronCollider(), new Detector());
+        for (int i = 0; i < 25; i++) {
+            ring.collide();
+        }
+    }
 
     public ProtonTrap[] getProtonTraps() {
         return protonTraps;
@@ -38,33 +63,13 @@ public class Ring extends Subscriber {
         this.currentExperiment = currentExperiment;
     }
 
-
-
-    public Ring(LargeHadronCollider lhc, IDetector detector) {
-        int numOfFiles = 50;
-        this.lhc = lhc;
-        this.detector = detector;
-        protonTraps = new ProtonTrap[2];
-        protonTraps[0] = new ProtonTrap(ProtonTrapID.A);
-        protonTraps[1] = new ProtonTrap(ProtonTrapID.B);
-        protonTraps[0].setRing(this);
-        protonTraps[1].setRing(this);
-        if(Configuration.instance.useDatabase) return;
-        for (int i = 1; i <= numOfFiles; i++) {
-            int trapIndex = (i-1)%2; //0 or 1, first or second trap
-            String filename = fileDirectory+fileNamePart+(i<10?("0"+i):i)+fileEnding;
-
-            protonTraps[trapIndex].loadData(filename, i);
-        }
-    }
-
     @Subscribe
-    public void receive(EventRunExperimentFull event){
+    public void receive(EventRunExperimentFull event) {
         runExperiment(event.getScope(), event.getInitialEnergy());
     }
 
     @Subscribe
-    public void receive(EventRunExperimentPartial event){
+    public void receive(EventRunExperimentPartial event) {
         runExperiment(event.getScope(), event.getInitialEnergy());
     }
 
@@ -90,7 +95,7 @@ public class Ring extends Subscriber {
     }
 
     private void performExperiment() {
-        if(!isActivated) return;
+        if (!isActivated) return;
         activateMagneticField();
         releaseProtons();
         while (energy < 300000) {
@@ -100,37 +105,37 @@ public class Ring extends Subscriber {
     }
 
     public void activate() {
-        isActivated=true;
-        energy=0;
+        isActivated = true;
+        energy = 0;
     }
 
-    public void activate(int initialEnergy){
-        isActivated=true;
-        energy=initialEnergy;
+    public void activate(int initialEnergy) {
+        isActivated = true;
+        energy = initialEnergy;
     }
 
-    public void activateMagneticField(){
+    public void activateMagneticField() {
         //todo: prevent Resonance Cascade
-        for(Magnet magnet : magnets){
-            if (magnet!=null) magnet.activate();
+        for (Magnet magnet : magnets) {
+            if (magnet != null) magnet.activate();
         }
     }
 
-    public void releaseProtons(){
+    public void releaseProtons() {
         protonTraps[0].release();
         protonTraps[1].release();
     }
 
-    public void increaseEnergy(int delta){
-        energy = Math.min(energy+delta,300000);
+    public void increaseEnergy(int delta) {
+        energy = Math.min(energy + delta, 300000);
     }
 
-    public void collide(){
+    public void collide() {
         if (protonA == null || protonB == null) {
-            currentExperiment=null;
+            currentExperiment = null;
             return;
         }
-        Block blocks[] = assembleBlocks(protonA,  protonB);
+        Block blocks[] = assembleBlocks(protonA, protonB);
         currentExperiment.setBlocks(blocks);
         currentExperiment.setDateTimeStamp(LocalTime.now().toString());
         currentExperiment.setProton01ID(protonA.getId());
@@ -138,41 +143,34 @@ public class Ring extends Subscriber {
     }
 
     private Block[] assembleBlocks(Proton proton01, Proton proton02) {
-        Block[] returnBlocks=new Block[200000];
+        Block[] returnBlocks = new Block[200000];
         Iterator<String> proton1Iterator = proton01.getBlockIterator();
         Iterator<String> proton2Iterator = proton02.getBlockIterator();
         for (int blockIndex = 0; blockIndex < returnBlocks.length; blockIndex++) {
             returnBlocks[blockIndex] = new Block();
-            returnBlocks[blockIndex].setStructure(proton1Iterator.next()+proton2Iterator.next());
+            returnBlocks[blockIndex].setStructure(proton1Iterator.next() + proton2Iterator.next());
             returnBlocks[blockIndex].setExperimentUUID(currentExperiment.getUuid().toString());
 
         }
         return returnBlocks;
     }
 
-    public int decreaseEnergy(){
+    public int decreaseEnergy() {
         return 0;
     }
 
-    public void shutdown(){
-        isActivated=false;
+    public void shutdown() {
+        isActivated = false;
     }
 
     public void receiveProton(ProtonTrapID id, Proton proton) {
         switch (id) {
             case A:
-                protonA=proton;
+                protonA = proton;
                 break;
             case B:
-                protonB=proton;
+                protonB = proton;
                 break;
-        }
-    }
-
-    public static void main(String[] args) {
-        Ring ring = new Ring(new LargeHadronCollider(), new Detector());
-        for (int i=0; i<25;i++) {
-            ring.collide();
         }
     }
 }

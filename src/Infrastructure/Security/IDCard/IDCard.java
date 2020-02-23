@@ -8,13 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
-    static int idCounter=0;
-
+    static int idCounter = 0;
+    private final int id;
+    protected IDCardVersion version = IDCardVersion.SingleChip;
     private Person person;
     private Chip chipPassword;
-    protected IDCardVersion version = IDCardVersion.SingleChip;
-
-    private final int id;
     private LocalDate validFrom;
     private LocalDate validTo;
     private int[][] irisStructure = new int[10][10];
@@ -22,6 +20,10 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
     private boolean isLocked;
 
 
+    public IDCard() {
+        id = idCounter++;
+        chipPassword = new Chip();
+    }
 
     @Override
     public Person getPerson() {
@@ -74,13 +76,8 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
     }
 
     @Override
-    public void setPassword(String password) {
-        this.chipPassword.setData(password);
-    }
-
-    @Override
     public void setPermission(Permission permission, boolean allow) {
-        if (permissionList.contains(permission)){
+        if (permissionList.contains(permission)) {
             if (!allow) permissionList.remove(permission);
         } else {
             if (allow) permissionList.add(permission);
@@ -104,13 +101,13 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
     }
 
     @Override
-    public boolean hasPermission(Permission permission) {
-        return permissionList.contains(permission);
+    public void setPassword(String password) {
+        this.chipPassword.setData(password);
     }
 
-    public IDCard() {
-        id = idCounter++;
-        chipPassword = new Chip();
+    @Override
+    public boolean hasPermission(Permission permission) {
+        return permissionList.contains(permission);
     }
 
     @Override

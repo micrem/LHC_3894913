@@ -27,6 +27,7 @@ public interface IROIDCard {
     IDCardVersion getVersion();
 
     IROIDCardMultichip getMultichipReadAccess(ICardReader cardReader);
+
     IIDCardMultichip getMultichipWriteAccess(ICardWriter cardWriter);
 
     Integer getID();

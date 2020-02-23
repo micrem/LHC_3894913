@@ -13,17 +13,15 @@ import java.util.ArrayList;
 
 
 public abstract class Person {
+    protected static int idIncrement = 0;
     static SecureRandom secureRandom = new SecureRandom();
     static ArrayList<String> names = new ArrayList<>();
-
-    protected static int idIncrement = 0;
     protected int id;
     protected String name;
     protected Iris iris;
     protected Fingerprint fingerprint;
-
-    private IROIDCard idCard;
     protected String password;
+    private IROIDCard idCard;
 
     public Person(String name) {
         this.id = idIncrement++;
@@ -32,38 +30,6 @@ public abstract class Person {
         this.password = generatePassword();
         this.fingerprint = new Fingerprint();
         fingerprint.scanFingerprint(this);
-    }
-
-    public String typePassword(IPasswordPad passwordPad) {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int[][] getIrisScan(IrisScanner irisScanner) {
-        return iris.toIntMatrix();
-    }
-
-    public String getFingerScan(FingerprintScanner fingerprintScanner) {
-        return fingerprint.getFingerprint();
-    }
-
-    protected IROIDCard getCard(){
-        return idCard;
-    }
-
-    public IROIDCard getCard(ICardReader cardReader){
-        return getCard();
-    }
-
-    protected void receiveCard(IROIDCard idCard){
-        this.idCard = idCard;
-    }
-
-    protected String generatePassword() {
-        return Integer.toHexString(secureRandom.nextInt());
     }
 
     public static String getRandomName() {
@@ -84,6 +50,38 @@ public abstract class Person {
         int randomNameIndex = secureRandom.nextInt(names.size());
         return names.get(randomNameIndex);
 
+    }
+
+    public String typePassword(IPasswordPad passwordPad) {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int[][] getIrisScan(IrisScanner irisScanner) {
+        return iris.toIntMatrix();
+    }
+
+    public String getFingerScan(FingerprintScanner fingerprintScanner) {
+        return fingerprint.getFingerprint();
+    }
+
+    protected IROIDCard getCard() {
+        return idCard;
+    }
+
+    public IROIDCard getCard(ICardReader cardReader) {
+        return getCard();
+    }
+
+    protected void receiveCard(IROIDCard idCard) {
+        this.idCard = idCard;
+    }
+
+    protected String generatePassword() {
+        return Integer.toHexString(secureRandom.nextInt());
     }
 
     public void generateNewPassword(ICardReader cardReader) {

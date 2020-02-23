@@ -1,6 +1,8 @@
 package Infrastructure.Security.IDCard;
 
 public class Chip {
+    private String password;
+
     public String getData() {
         return password;
     }
@@ -8,6 +10,4 @@ public class Chip {
     public void setData(String password) {
         this.password = password;
     }
-
-    private String password;
 }

@@ -8,33 +8,40 @@ public enum EmployeeManagement implements IEmployeeManagement {
     private HashMap<Integer, Employee> employeeMap;
 
     @Override
-    public void createEmployee(String name, String type){
-        EmployeeType employeeType=null;
-        Employee employee=null;
+    public void createEmployee(String name, String type) {
+        EmployeeType employeeType = null;
+        Employee employee = null;
 
-        for(EmployeeType emplType : EmployeeType.values()){
-            if (type.equals(emplType.toString())){
-                employeeType= emplType;
+        for (EmployeeType emplType : EmployeeType.values()) {
+            if (type.equals(emplType.toString())) {
+                employeeType = emplType;
             }
         }
 
         switch (employeeType) {
-            case HRAssistant: employee=new HRAssistant(name);
+            case HRAssistant:
+                employee = new HRAssistant(name);
                 break;
-            case HRConsultant: employee=new HRConsultant(name);
+            case HRConsultant:
+                employee = new HRConsultant(name);
                 break;
-            case HRHoD: employee=new HRHoD(name);
+            case HRHoD:
+                employee = new HRHoD(name);
                 break;
-            case Receptionist: employee=new Receptionist(name);
+            case Receptionist:
+                employee = new Receptionist(name);
                 break;
-            case Researcher: employee=new Researcher(name);
+            case Researcher:
+                employee = new Researcher(name);
                 break;
-            case ScientificAssistant:employee=new ScientificAssistant(name);
+            case ScientificAssistant:
+                employee = new ScientificAssistant(name);
                 break;
-            case SecurityOfficer:employee=new SecurityOfficer(name);
+            case SecurityOfficer:
+                employee = new SecurityOfficer(name);
                 break;
         }
-        if(employee!=null) employeeMap.put(employee.getId(),employee);
+        if (employee != null) employeeMap.put(employee.getId(), employee);
     }
 
     private enum EmployeeType {

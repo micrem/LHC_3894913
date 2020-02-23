@@ -11,16 +11,18 @@ public enum SecurityConfiguration {
     public String userDirectory = System.getProperty("user.dir");
     public String fileSeparator = System.getProperty("file.separator");
     public CryptographyType cryptographyType;
-    public ICryptograph cryptograph=null;
+    public ICryptograph cryptograph = null;
     public String defaultPassword; //"helloLHC2020" as of 2020
 
-    SecurityConfiguration(){
+    SecurityConfiguration() {
         String masterPassword;
-        try (FileInputStream fileInputStream = new FileInputStream(userDirectory + fileSeparator + "src" + fileSeparator + "configuration.props")){
+        try (FileInputStream fileInputStream = new FileInputStream(userDirectory + fileSeparator + "src" + fileSeparator + "configuration.props")) {
             Properties properties = new Properties();
             properties.load(fileInputStream);
             fileInputStream.close();
-            if (properties.getProperty("CryptographyType").equals("AES")){cryptographyType =CryptographyType.AES;}
+            if (properties.getProperty("CryptographyType").equals("AES")) {
+                cryptographyType = CryptographyType.AES;
+            }
             masterPassword = properties.getProperty("MasterPassword");
             if (cryptographyType == CryptographyType.AES) {
                 cryptograph = new Cryptography.AESCryptograph(masterPassword);

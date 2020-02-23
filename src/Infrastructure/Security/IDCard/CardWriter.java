@@ -2,8 +2,8 @@ package Infrastructure.Security.IDCard;
 
 import Cryptography.ICryptograph;
 import HumanResources.Person;
-import Infrastructure.Security.SecurityConfiguration;
 import Infrastructure.Security.Permission;
+import Infrastructure.Security.SecurityConfiguration;
 
 import java.time.LocalDate;
 
@@ -18,7 +18,7 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     @Override
     public ICardWriter scanIrisToCard(Person person) {
-        if(canWrite()){
+        if (canWrite()) {
             writeableCard.setIrisStructure(irisScanner.scanIris(person));
         }
         return this;
@@ -28,7 +28,7 @@ public class CardWriter extends CardReader implements ICardWriter {
     public void insertCard(IROIDCard idCard) {
         super.insertCard(idCard);
         getWriteAccess();
-        if (idCard.getVersion()==IDCardVersion.MultiChip){
+        if (idCard.getVersion() == IDCardVersion.MultiChip) {
             writeableMultiChipCard = idCard.getMultichipWriteAccess(this);
         }
     }
@@ -62,7 +62,7 @@ public class CardWriter extends CardReader implements ICardWriter {
         writeableCard.setPerson(person);
         writeableCard.setValidFrom(LocalDate.now());
         writeableCard.setValidTo(LocalDate.now().plusDays(7));
-        if (writeableMultiChipCard!=null){
+        if (writeableMultiChipCard != null) {
             String userFingerPrint = person.getFingerScan(fingerScanner);
             writeableMultiChipCard.writeFingerprintData(userFingerPrint);
         }
@@ -71,7 +71,7 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     @Override
     public ICardWriter setPermission(Permission permission) {
-        if (canWrite()){
+        if (canWrite()) {
             writeableCard.setPermission(Permission.Visitor, true);
         }
         return this;
@@ -79,17 +79,17 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     @Override
     public ICardWriter clearCard() {
-        if (writeableCard==null) return this;
-        if (writeableMultiChipCard!=null)writeableMultiChipCard.writeFingerprintData("");
+        if (writeableCard == null) return this;
+        if (writeableMultiChipCard != null) writeableMultiChipCard.writeFingerprintData("");
         writeableCard.setIrisStructure(new int[10][10]);
         writeableCard.setLocked(false);
         writeableCard.setPerson(null);
         writeableCard.setValidFrom(LocalDate.now().minusYears(1));
         writeableCard.setValidTo(LocalDate.now().minusYears(1));
         writeableCard.setPassword("dieser satz kein verb!! °¿º ");
-        for (Permission p: Permission.values()
-             ) {
-            writeableCard.setPermission(p,false);
+        for (Permission p : Permission.values()
+        ) {
+            writeableCard.setPermission(p, false);
         }
         return this;
     }

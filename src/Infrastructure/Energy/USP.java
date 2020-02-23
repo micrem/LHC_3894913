@@ -9,9 +9,12 @@ public class USP {
     private boolean isActivated;
     private boolean isStandBy;
 
-    public void determineChargeState(){}
+    public void determineChargeState() {
+    }
 
-    public void charge(ThreePinPlug plug){}
+    public void charge(ThreePinPlug plug) {
+    }
 
-    public void takeOut(){}
+    public void takeOut() {
+    }
 }

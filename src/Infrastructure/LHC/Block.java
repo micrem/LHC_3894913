@@ -8,6 +8,16 @@ public class Block {
     private String structure;
     private String experimentUUID;
 
+    public Block() {
+        initialise();
+    }
+
+    public Block(boolean initialise) {
+        if (initialise) {
+            initialise();
+        }
+    }
+
     public String getStructure() {
         return structure;
     }
@@ -37,16 +47,6 @@ public class Block {
         return "Block{" +
                 "structure='" + structure + '\'' +
                 '}';
-    }
-
-    public Block() {
-        initialise();
-    }
-
-    public Block(boolean initialise ) {
-        if (initialise){
-            initialise();
-        }
     }
 
     private void initialise() {

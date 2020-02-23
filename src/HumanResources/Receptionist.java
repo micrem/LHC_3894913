@@ -8,6 +8,21 @@ import Infrastructure.Security.Reception;
 
 public class Receptionist extends Employee {
 
+    private Reception reception;
+    private ICardWriter cardWriter;
+
+    public Receptionist(String name) {
+        super(name);
+    }
+
+    public static void main(String[] args) {
+        Reception reception = new Reception(new Building());
+        Receptionist receptionist = new Receptionist("Alfred Hitchblock");
+        receptionist.setReception(reception);
+        Visitor visitor = new Visitor("Dumbledore Blunderbuss");
+        visitor.registerWithReceptionist(receptionist);
+    }
+
     public Reception getReception() {
         return reception;
     }
@@ -16,11 +31,7 @@ public class Receptionist extends Employee {
         this.reception = reception;
     }
 
-    private Reception reception;
-    private ICardWriter cardWriter;
-
-
-    public void processVisitor( Visitor visitor ){
+    public void processVisitor(Visitor visitor) {
         String visitorName = visitor.getName();
         IROIDCard idCard = reception.getBlankIDCard();
         cardWriter = reception.getCardWriter(this);
@@ -32,17 +43,5 @@ public class Receptionist extends Employee {
         cardWriter.finalizeCard(visitor);
         IROIDCard authorizedCard = cardWriter.ejectCard();
         visitor.receiveCard(authorizedCard);
-    }
-
-    public Receptionist(String name) {
-        super(name);
-    }
-
-    public static void main(String[] args) {
-        Reception reception = new Reception(new Building());
-        Receptionist receptionist = new Receptionist("Alfred Hitchblock");
-        receptionist.setReception(reception);
-        Visitor visitor  = new Visitor("Dumbledore Blunderbuss");
-        visitor.registerWithReceptionist(receptionist);
     }
 }
