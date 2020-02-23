@@ -76,7 +76,7 @@ public abstract class Person {
         return getCard();
     }
 
-    protected void receiveCard(IROIDCard idCard) {
+    public void receiveCard(IROIDCard idCard) {
         this.idCard = idCard;
     }
 

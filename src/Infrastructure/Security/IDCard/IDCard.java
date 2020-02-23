@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
+public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit, IIDCardLockAccess {
     static int idCounter = 0;
     private final int id;
     protected IDCardVersion version = IDCardVersion.SingleChip;
@@ -76,6 +76,11 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
     }
 
     @Override
+    public void lock() {
+        setLocked(true);
+    }
+
+    @Override
     public void setPermission(Permission permission, boolean allow) {
         if (permissionList.contains(permission)) {
             if (!allow) permissionList.remove(permission);
@@ -92,6 +97,11 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit {
 
     @Override
     public IIDCardPWedit grantPasswordChangeAccess(ICardReader cardReader) {
+        return this;
+    }
+
+    @Override
+    public IIDCardLockAccess grantLockAccess(ICardReader cardReader) {
         return this;
     }
 

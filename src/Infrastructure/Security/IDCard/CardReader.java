@@ -15,7 +15,7 @@ public class CardReader implements ICardReader {
     protected FingerprintScanner fingerScanner = new FingerprintScanner();
     protected IPasswordPad passwordPad = new TouchPad();
     protected IROIDCard idCard;
-    protected boolean validPasswordEntered = false;
+    protected boolean validSymbolsEntered = false;
 
     protected boolean useIrisScanner;
 
@@ -25,28 +25,42 @@ public class CardReader implements ICardReader {
     }
 
     public boolean getPasswordInput(Person person) {
-        validPasswordEntered = false;
+        validSymbolsEntered = false;
         passwordPad.readUserInput(person);
         if (!hasValidSymbols(passwordPad.getBufferedInput())) {
             return false;
         }
         if (idCard.hasPermission(Permission.Visitor)) {
-            return passwordPad.getBufferedInput().length() == 5;
+            if (passwordPad.getBufferedInput().length() != 5) {
+                return false;
+            }
         }
-        validPasswordEntered = true;
+        validSymbolsEntered = true;
         return true;
     }
 
     @Override
     public boolean verifyCardUser(Person person) {
-        if (!hasCard() || !getPasswordInput(person)) {
+        int passwordAttempts=0;
+        if (!hasCard() ) {
             return false;
+        }
+        //count impossible passwords (bad symbols or format) as attempts
+        while ( !getPasswordInput(person) ) {
+            if (++passwordAttempts>=3){
+               idCard.grantLockAccess(this).lock();
+                return false;
+            }
         }
         if (idCard.isLocked()) {
             return false;
         }
+        //count wrong passwords
         if (!verifyPassword(person)) {
-            return false;
+            if (++passwordAttempts>=3){
+                idCard.grantLockAccess(this).lock();
+                return false;
+            }
         }
         if (useIrisScanner) {
             if (!verifyIris(person)) {
@@ -89,15 +103,16 @@ public class CardReader implements ICardReader {
     }
 
     protected boolean verifyPassword(Person person) {
-        if (!hasCard() || !validPasswordEntered) {
-            return false;
-        }
         ICryptograph cryptograph = SecurityConfiguration.instance.cryptograph;
         String encodedDefaultPassword = cryptograph.encode(SecurityConfiguration.instance.defaultPassword);
+        String encodedPassword = cryptograph.encode(this.passwordPad.getBufferedInput());
+        if (!hasCard() || !validSymbolsEntered) {
+            return false;
+        }
+        //change default pw for non-visitors
         if (encodedDefaultPassword.equals(idCard.getPassword()) && !person.getCard(this).hasPermission(Permission.Visitor)) {
             return changeDefaultPassword(person);
         }
-        String encodedPassword = cryptograph.encode(this.passwordPad.getBufferedInput());
         if (encodedPassword.equals(idCard.getPassword())) {
             return true;
         }
@@ -111,7 +126,7 @@ public class CardReader implements ICardReader {
 
     @Override
     public void insertCard(IROIDCard idCard) {
-        validPasswordEntered = false;
+        validSymbolsEntered = false;
         this.idCard = idCard;
     }
 

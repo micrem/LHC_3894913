@@ -3,7 +3,7 @@ package Infrastructure.LHC;
 import Infrastructure.Energy.USP;
 
 public class LargeHadronCollider {
-    private USP[] usp = new USP[2];
+    private USP[] usps = new USP[2];
     private Building building;
     private Ring ring;
     private ControlCenter controlCenter;
@@ -35,4 +35,7 @@ public class LargeHadronCollider {
         this.controlCenter = controlCenter;
     }
 
+    public USP[] getUSPs() {
+        return usps;
+    }
 }

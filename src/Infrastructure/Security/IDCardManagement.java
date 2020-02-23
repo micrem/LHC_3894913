@@ -13,7 +13,7 @@ public enum IDCardManagement implements IIDCardManagement {
     INSTANCE;
 
     private HRAssistant hrWorker = new HRAssistant(Person.getRandomName());
-    private HashMap<Integer, IROIDCard> idCardHashMap;
+    private HashMap<Integer, IROIDCard> idCardHashMap = new HashMap<>();
     private ICardWriter cardWriter;
 
     IDCardManagement() {
@@ -22,7 +22,6 @@ public enum IDCardManagement implements IIDCardManagement {
 
     @Override
     public void assignIDCard(IROIDCard idCard, Employee employee) {
-        //todo: where should this idCard come from? why is it not generated here?
         hrWorker.assignCard(employee, idCard);
         idCardHashMap.put(idCard.getID(), idCard);
     }
@@ -38,6 +37,14 @@ public enum IDCardManagement implements IIDCardManagement {
         cardWriter.insertCard(idCard);
         cardWriter.clearCard().ejectCard();
         idCardHashMap.remove(idCard.getID());
+    }
+
+    public HRAssistant getHrWorker() {
+        return hrWorker;
+    }
+
+    public void setHrWorker(HRAssistant hrWorker) {
+        this.hrWorker = hrWorker;
     }
 
 }

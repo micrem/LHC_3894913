@@ -20,6 +20,8 @@ public interface IROIDCard {
 
     IIDCardPWedit grantPasswordChangeAccess(ICardReader cardReader);
 
+    IIDCardLockAccess grantLockAccess(ICardReader cardReader);
+
     String getPassword();
 
     boolean hasPermission(Permission permission);

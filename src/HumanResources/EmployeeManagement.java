@@ -1,14 +1,17 @@
 package HumanResources;
 
+import Infrastructure.Security.EmployeeType;
+import Infrastructure.Security.Permission;
+
 import java.util.HashMap;
 
 public enum EmployeeManagement implements IEmployeeManagement {
     instance;
 
-    private HashMap<Integer, Employee> employeeMap;
+    private HashMap<Integer, EmployeeEntry> employeeMap;
 
     @Override
-    public void createEmployee(String name, String type) {
+    public void createRegisteredEmployee(String name, String type) {
         EmployeeType employeeType = null;
         Employee employee = null;
 
@@ -41,17 +44,51 @@ public enum EmployeeManagement implements IEmployeeManagement {
                 employee = new SecurityOfficer(name);
                 break;
         }
-        if (employee != null) employeeMap.put(employee.getId(), employee);
+        if (employee != null) employeeMap.put(employee.getId(), new EmployeeEntry(employee,employeeType));
     }
 
-    private enum EmployeeType {
-        HRAssistant,
-        HRConsultant,
-        HRHoD,
-        Receptionist,
-        Researcher,
-        ScientificAssistant,
-        SecurityOfficer
+    @Override
+    public Permission[] getEmployeePermissions(int employeeID) {
+        EmployeeType type = employeeMap.get(employeeID).type;
+        return getPermissions(type);
     }
+
+    private Permission[] getPermissions(EmployeeType type) {
+        Permission[] perm=null;
+        switch (type) {
+            case HRAssistant:
+                perm=new Permission[]{Permission.readEmployeeData};
+                break;
+            case HRConsultant:
+                perm=new Permission[]{Permission.readEmployeeData,Permission.writeEmployeeData};
+                break;
+            case HRHoD:
+                perm=new Permission[]{Permission.readEmployeeData,Permission.writeEmployeeData};
+                break;
+            case Receptionist:
+                break;
+            case Researcher:
+                perm=new Permission[]{Permission.Researcher, Permission.ControlCenter};
+                break;
+            case ScientificAssistant:
+                perm=new Permission[]{Permission.ControlCenter};
+                break;
+            case SecurityOfficer:
+                perm=new Permission[]{Permission.Security};
+                break;
+        }
+        return perm;
+    }
+
+    private class EmployeeEntry{
+        Employee employee;
+        EmployeeType type;
+
+        public EmployeeEntry(Employee employee, EmployeeType type) {
+            this.employee = employee;
+            this.type = type;
+        }
+    }
+
 
 }

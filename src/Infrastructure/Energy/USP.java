@@ -17,4 +17,8 @@ public class USP {
 
     public void takeOut() {
     }
+
+    public Battery[] getBatteries() {
+        return batteries;
+    }
 }

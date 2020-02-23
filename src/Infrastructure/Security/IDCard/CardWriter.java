@@ -18,7 +18,7 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     @Override
     public ICardWriter scanIrisToCard(Person person) {
-        if (canWrite()) {
+        if (canWrite() && this.useIrisScanner) {
             writeableCard.setIrisStructure(irisScanner.scanIris(person));
         }
         return this;
@@ -57,7 +57,7 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     @Override
     public ICardWriter finalizeCard(Person person) {
-        writeableCard.setIrisStructure(person.getIrisScan(irisScanner));
+        if(this.useIrisScanner){writeableCard.setIrisStructure(person.getIrisScan(irisScanner));}
         writeableCard.setLocked(false);
         writeableCard.setPerson(person);
         writeableCard.setValidFrom(LocalDate.now());

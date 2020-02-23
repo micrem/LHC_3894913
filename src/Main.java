@@ -9,5 +9,6 @@ public class Main {
         //print experiments from database
         Detector detector = new Detector();
         detector.getExperiments(new Researcher(Person.getRandomName())).forEach(System.out::println);
+        //detector.writeToDB();
     }
 }
