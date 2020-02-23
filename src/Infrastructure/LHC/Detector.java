@@ -1,6 +1,7 @@
 package Infrastructure.LHC;
 
 import HumanResources.Person;
+import HumanResources.Researcher;
 import Infrastructure.Security.IDCard.CardReader;
 import Infrastructure.Security.IDCard.ICardReader;
 import Infrastructure.Security.Permission;
@@ -17,7 +18,7 @@ import java.util.List;
 public class Detector extends Subscriber implements IDetector {
     static private String higgsBosonStructure = "higgs";
     private boolean isActivated;
-    private List<Experiment> experimentList = new LinkedList<>();
+    private List<Experiment> experimentList = new ArrayList<>();
     private ICardReader cardReader = new CardReader(true);
 
     private IPersistanceLayer persistanceLayer = PersistanceLayerDB.instance;
@@ -33,15 +34,6 @@ public class Detector extends Subscriber implements IDetector {
             experimentList = persistanceLayer.getExperiments();
             persistanceLayer.shutdown();
         }
-    }
-
-
-    public static void main(String[] args) {
-        Experiment ex = new Experiment();
-        ex.setDateTimeStamp(LocalTime.now().toString());
-        Detector detector = new Detector();
-        detector.experimentList.add(ex);
-        //detector.writeToDB();
     }
 
     @Override
@@ -142,5 +134,6 @@ public class Detector extends Subscriber implements IDetector {
             }
             System.out.println("done");
         }
+        persistanceLayer.shutdown();
     }
 }

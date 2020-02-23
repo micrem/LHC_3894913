@@ -18,19 +18,23 @@ public enum Configuration {
     public String subFolderPathToArchive = nameOfSubFolder + fileSeparator + nameOfJavaArchive;
 
     public String fullPathToJavaArchive = userDirectory + fileSeparator + nameOfSubFolder + fileSeparator + nameOfJavaArchive;
-
-    private Class stringMatcherClass;
     public Object port;
     public Method searchMethod;
+    public boolean useDatabase = true;
+    private Class stringMatcherClass;
 
-    public boolean useDatabase=false;
-
-    /** @noinspection unchecked*/
+    /**
+     * @noinspection unchecked
+     */
     Configuration() {
         init();
     }
 
-    void init(){
+    public static void main(String[] args) {
+        System.out.println(Configuration.instance.fullPathToJavaArchive);
+    }
+
+    void init() {
         try {
             URL[] urls = {new File(subFolderPathToArchive).toURI().toURL()};
             URLClassLoader urlClassLoader = new URLClassLoader(urls, Detector.class.getClassLoader());
@@ -41,10 +45,6 @@ public enum Configuration {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(Configuration.instance.fullPathToJavaArchive);
     }
 
     private enum SearchAlgorithm {
