@@ -48,6 +48,11 @@ public enum EmployeeManagement implements IEmployeeManagement {
     }
 
     @Override
+    public String getEmployeeData(int employeeID) {
+        return employeeMap.get(employeeID).toString();
+    }
+
+    @Override
     public Permission[] getEmployeePermissions(int employeeID) {
         EmployeeType type = employeeMap.get(employeeID).type;
         return getPermissions(type);

@@ -1,9 +1,6 @@
 package Infrastructure.Security;
 
-import HumanResources.Employee;
-import HumanResources.EmployeeManagement;
-import HumanResources.IEmployeeManagement;
-import HumanResources.SecurityOfficer;
+import HumanResources.*;
 import Infrastructure.LHC.Building;
 import Infrastructure.Security.IDCard.*;
 
@@ -15,7 +12,7 @@ public class SecurityCentre {
     private ICardWriter cardWriter;
     private SecurityOfficer officer;
 
-    private IEmployeeManagement employeeManagement;
+    private IROEmployeeManagement employeeManagement;
 
     public SecurityCentre(Building building) {
         employeeIDCards = new Stack<>();
@@ -35,7 +32,7 @@ public class SecurityCentre {
         IROIDCard idCard = this.getBlankIDCard();
         cardWriter = this.getCardWriter(officer);
         cardWriter.insertCard(idCard);
-        employeeManagement.
+        employeeManagement.getEmployeePermissions(employee.getId());
         cardWriter.setPermission(Permission.ControlCenter);
         cardWriter.getPasswordInput(employee);
         cardWriter.writePassword();
