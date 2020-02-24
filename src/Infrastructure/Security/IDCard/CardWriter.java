@@ -61,7 +61,12 @@ public class CardWriter extends CardReader implements ICardWriter {
         writeableCard.setLocked(false);
         writeableCard.setPerson(person);
         writeableCard.setValidFrom(LocalDate.now());
-        writeableCard.setValidTo(LocalDate.now().plusDays(7));
+        if(idCard.hasPermission(Permission.Visitor)){
+            writeableCard.setValidTo(LocalDate.now().plusDays(7));
+        }else{
+            writeableCard.setValidTo(LocalDate.now().plusYears(1));
+        }
+
         if (writeableMultiChipCard != null) {
             String userFingerPrint = person.getFingerScan(fingerScanner);
             writeableMultiChipCard.writeFingerprintData(userFingerPrint);
@@ -71,8 +76,8 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     @Override
     public ICardWriter setPermission(Permission permission) {
-        if (canWrite()) {
-            writeableCard.setPermission(Permission.Visitor, true);
+        if (writeableCard!=null) {
+            writeableCard.setPermission(permission, true);
         }
         return this;
     }
@@ -101,6 +106,6 @@ public class CardWriter extends CardReader implements ICardWriter {
     }
 
     private boolean canWrite() {
-        return hasCard() && writeableCard != null;
+        return idCard!=null && writeableCard != null;
     }
 }

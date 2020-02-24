@@ -16,16 +16,19 @@ public class IDCardv2 extends IDCard implements IROIDCardMultichip, IIDCardMulti
 
     @Override
     public String getFingerprint(ICardReader iCardReader) {
+        if(iCardReader==null) return null;
         return chipFingerprint.getData();
     }
 
     @Override
     public IROIDCardMultichip getMultichipReadAccess(ICardReader cardReader) {
+        if(cardReader==null) return null;
         return this;
     }
 
     @Override
     public IIDCardMultichip getMultichipWriteAccess(ICardWriter cardWriter) {
+        if(cardWriter==null) return null;
         return this;
     }
 }

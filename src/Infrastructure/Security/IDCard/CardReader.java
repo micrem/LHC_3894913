@@ -7,6 +7,7 @@ import Infrastructure.Security.Biometrics.IrisScanner;
 import Infrastructure.Security.Permission;
 import Infrastructure.Security.SecurityConfiguration;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 public class CardReader implements ICardReader {
@@ -25,6 +26,7 @@ public class CardReader implements ICardReader {
     }
 
     public boolean getPasswordInput(Person person) {
+
         validSymbolsEntered = false;
         passwordPad.readUserInput(person);
         if (!hasValidSymbols(passwordPad.getBufferedInput())) {
@@ -42,11 +44,11 @@ public class CardReader implements ICardReader {
     @Override
     public boolean verifyCardUser(Person person) {
         int passwordAttempts=0;
-        if (!hasCard() ) {
+        if (!hasValidCard() ) {
             return false;
         }
-        //count impossible passwords (bad symbols or format) as attempts
-        while ( !getPasswordInput(person) ) {
+        //count impossible passwords (bad symbols or format) as attempts || count wrong password attempts
+        while ( !getPasswordInput(person) || !verifyPassword(person)) {
             if (++passwordAttempts>=3){
                idCard.grantLockAccess(this).lock();
                 return false;
@@ -55,13 +57,7 @@ public class CardReader implements ICardReader {
         if (idCard.isLocked()) {
             return false;
         }
-        //count wrong passwords
-        if (!verifyPassword(person)) {
-            if (++passwordAttempts>=3){
-                idCard.grantLockAccess(this).lock();
-                return false;
-            }
-        }
+
         if (useIrisScanner) {
             if (!verifyIris(person)) {
                 return false;
@@ -106,7 +102,7 @@ public class CardReader implements ICardReader {
         ICryptograph cryptograph = SecurityConfiguration.instance.cryptograph;
         String encodedDefaultPassword = cryptograph.encode(SecurityConfiguration.instance.defaultPassword);
         String encodedPassword = cryptograph.encode(this.passwordPad.getBufferedInput());
-        if (!hasCard() || !validSymbolsEntered) {
+        if (!hasValidCard() || !validSymbolsEntered) {
             return false;
         }
         //change default pw for non-visitors
@@ -138,7 +134,7 @@ public class CardReader implements ICardReader {
     }
 
     public void changePassword(Person person) {
-        if (!hasCard()) return;
+        if (!hasValidCard()) return;
         //check old password
         if (!getPasswordInput(person)) return;
         if (!verifyPassword(person)) return;
@@ -152,7 +148,7 @@ public class CardReader implements ICardReader {
     }
 
     protected boolean changeDefaultPassword(Person person) {
-        if (!hasCard()) return false;
+        if (!hasValidCard()) return false;
         if (!getPasswordInput(person)) return false;
         //get read interface
         IIDCardPWedit idCardPWwriteable = idCard.grantPasswordChangeAccess(this);
@@ -178,8 +174,12 @@ public class CardReader implements ICardReader {
         return idCard.hasPermission(permission);
     }
 
-    protected boolean hasCard() {
-        return idCard != null;
+    protected boolean hasValidCard() {
+        if(idCard == null) return false;
+        if(idCard.isLocked()) return false;
+        if(idCard.getValidFrom().isAfter(LocalDate.now())) return false;
+        if(idCard.getValidTo().isBefore(LocalDate.now())) return false;
+        return true;
     }
 
 }

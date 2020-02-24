@@ -10,14 +10,15 @@ import Infrastructure.Security.IDCard.IROIDCard;
 import java.util.HashMap;
 
 public enum IDCardManagement implements IIDCardManagement {
-    INSTANCE;
+    instance;
 
     private HRAssistant hrWorker = new HRAssistant(Person.getRandomName());
-    private HashMap<Integer, IROIDCard> idCardHashMap = new HashMap<>();
+    private HashMap<Integer, IROIDCard> idCardHashMap;
     private ICardWriter cardWriter;
 
     IDCardManagement() {
-        cardWriter = new CardWriter(true);
+        cardWriter = new CardWriter(true/*with iris scanner*/);
+        idCardHashMap = new HashMap<>();
     }
 
     @Override

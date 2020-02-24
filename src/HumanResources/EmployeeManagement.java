@@ -4,14 +4,19 @@ import Infrastructure.Security.EmployeeType;
 import Infrastructure.Security.Permission;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public enum EmployeeManagement implements IEmployeeManagement {
     instance;
 
-    private HashMap<Integer, EmployeeEntry> employeeMap;
+    private Map<Integer, EmployeeEntry> employeeMap;
+
+    EmployeeManagement() {
+        this.employeeMap = new HashMap<>();
+    }
 
     @Override
-    public void createRegisteredEmployee(String name, String type) {
+    public Employee createRegisteredEmployee(String name, String type) {
         EmployeeType employeeType = null;
         Employee employee = null;
 
@@ -20,7 +25,6 @@ public enum EmployeeManagement implements IEmployeeManagement {
                 employeeType = emplType;
             }
         }
-
         switch (employeeType) {
             case HRAssistant:
                 employee = new HRAssistant(name);
@@ -44,7 +48,16 @@ public enum EmployeeManagement implements IEmployeeManagement {
                 employee = new SecurityOfficer(name);
                 break;
         }
-        if (employee != null) employeeMap.put(employee.getId(), new EmployeeEntry(employee,employeeType));
+        if (employee==null) {
+            return null;
+        }
+        employeeMap.put(employee.getId(), new EmployeeEntry(employee,employeeType));
+        return  employee;
+    }
+
+    @Override
+    public Employee getEmployee(int employeeID) {
+        return employeeMap.get(employeeID).employee;
     }
 
     @Override

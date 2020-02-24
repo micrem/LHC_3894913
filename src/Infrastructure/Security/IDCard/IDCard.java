@@ -92,16 +92,19 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit, IIDCardLockAcc
     @Override
     public IIDCard grantWriteAccess(ICardWriter cardWriter) {
         //verify ICardWriter compatibility
+        if(cardWriter==null) return null;
         return this;
     }
 
     @Override
     public IIDCardPWedit grantPasswordChangeAccess(ICardReader cardReader) {
+        if(cardReader==null) return null;
         return this;
     }
 
     @Override
     public IIDCardLockAccess grantLockAccess(ICardReader cardReader) {
+        if(cardReader==null) return null;
         return this;
     }
 
@@ -132,11 +135,13 @@ public class IDCard implements IIDCard, IROIDCard, IIDCardPWedit, IIDCardLockAcc
 
     @Override
     public IROIDCardMultichip getMultichipReadAccess(ICardReader cardReader) {
+        if(cardReader==null) return null;
         return null;
     }
 
     @Override
     public IIDCardMultichip getMultichipWriteAccess(ICardWriter cardWriter) {
+        if(cardWriter==null) return null;
         return null;
     }
 

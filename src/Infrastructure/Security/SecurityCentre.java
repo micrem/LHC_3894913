@@ -23,7 +23,7 @@ public class SecurityCentre {
     }
 
     public void createEmployeeCard(Employee employee) {
-
+        Permission[] permissions;
         if (employeeIDCards.empty()) {
             System.out.println("No empty HumanResources.Visitor IDCards left.");
             return;
@@ -32,8 +32,8 @@ public class SecurityCentre {
         IROIDCard idCard = this.getBlankIDCard();
         cardWriter = this.getCardWriter(officer);
         cardWriter.insertCard(idCard);
-        employeeManagement.getEmployeePermissions(employee.getId());
-        cardWriter.setPermission(Permission.ControlCenter);
+        permissions = employeeManagement.getEmployeePermissions(employee.getId());
+        for(Permission permission : permissions) {cardWriter.setPermission(permission);}
         cardWriter.getPasswordInput(employee);
         cardWriter.writePassword();
         cardWriter.scanIrisToCard(employee);
@@ -69,7 +69,7 @@ public class SecurityCentre {
         this.officer = officer;
     }
 
-    public boolean verifyVisitor(Employee employee){
+    public boolean verifyEmployee(Employee employee){
         cardWriter.insertCard(employee.getCard(cardWriter));
         boolean verified =  cardWriter.verifyCardUser(employee);
         employee.receiveCard(cardWriter.ejectCard());
