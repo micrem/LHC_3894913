@@ -24,7 +24,13 @@ public class LargeHadronCollider {
     }
 
     public void setRing(Ring ring) {
+        Ring tempRing = this.ring;
         this.ring = ring;
+//        if(controlCenter==null) return;
+//        if(tempRing!=null){
+//            controlCenter.removeSubscriber(tempRing);
+//        }
+//        controlCenter.addSubscriber(ring);
     }
 
     public ControlCenter getControlCenter() {

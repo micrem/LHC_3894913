@@ -41,7 +41,10 @@ public class ProtonTrap {
     }
 
     private Proton getProton() {
-        if (protonCounter <= 0) return null;
+        if (protonCounter <= 0) {
+            System.out.println("ProtonTrap: Warning: Proton requested but no protons left!");
+            return null;
+        }
         return protons[--protonCounter];
     }
 

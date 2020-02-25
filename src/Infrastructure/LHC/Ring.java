@@ -11,6 +11,7 @@ public class Ring extends Subscriber {
     public String fileEnding = ".txt";
     public String fileNamePart = "proton_";
     public String fileDirectory = userDirectory + fileSeparator + "rsc" + fileSeparator + "protoData" + fileSeparator;
+    private int numOfFiles = 50;
 
     private LargeHadronCollider lhc;
     private ProtonTrap[] protonTraps;
@@ -23,7 +24,6 @@ public class Ring extends Subscriber {
     private int energy;
 
     public Ring(LargeHadronCollider lhc, IDetector detector) {
-        int numOfFiles = 50;
         this.lhc = lhc;
         this.detector = detector;
         protonTraps = new ProtonTrap[2];
@@ -31,20 +31,17 @@ public class Ring extends Subscriber {
         protonTraps[1] = new ProtonTrap(ProtonTrapID.B);
         protonTraps[0].setRing(this);
         protonTraps[1].setRing(this);
-        if (Configuration.instance.useDatabase) return;
-        for (int i = 1; i <= numOfFiles; i++) {
-            int trapIndex = (i - 1) % 2; //0 or 1, first or second trap
-            String filename = fileDirectory + fileNamePart + (i < 10 ? ("0" + i) : i) + fileEnding;
-
-            protonTraps[trapIndex].loadData(filename, i);
-        }
     }
 
-    public static void main(String[] args) {
-        Ring ring = new Ring(new LargeHadronCollider(), new Detector());
-        for (int i = 0; i < 25; i++) {
-            ring.collide();
+    public void loadProtonTxts() {
+        System.out.print("ring: loading protonTraps from txt files..");
+        int i;
+        for ( i = 1; i <= numOfFiles; i++) {
+            int trapIndex = (i - 1) % 2; //0 or 1, first or second trap
+            String filename = fileDirectory + fileNamePart + (i < 10 ? ("0" + i) : i) + fileEnding;
+            protonTraps[trapIndex].loadData(filename, i);
         }
+        System.out.println((i-1)+" loaded");
     }
 
     public ProtonTrap[] getProtonTraps() {
@@ -149,7 +146,7 @@ public class Ring extends Subscriber {
         for (int blockIndex = 0; blockIndex < returnBlocks.length; blockIndex++) {
             returnBlocks[blockIndex] = new Block();
             returnBlocks[blockIndex].setStructure(proton1Iterator.next() + proton2Iterator.next());
-            returnBlocks[blockIndex].setExperimentUUID(currentExperiment.getUuid().toString());
+            returnBlocks[blockIndex].setExperimentUUID(currentExperiment.getUuid());
 
         }
         return returnBlocks;

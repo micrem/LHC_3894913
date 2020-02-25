@@ -29,6 +29,9 @@ public class Detector extends Subscriber implements IDetector {
     public Detector() {
         searchMethod = Configuration.instance.searchMethod;
         port = Configuration.instance.port;
+    }
+
+    public void loadExperimentsFromDB() {
         if (Configuration.instance.useDatabase) {
             persistanceLayer.setupConnection();
             experimentList = persistanceLayer.getExperiments();
@@ -67,11 +70,13 @@ public class Detector extends Subscriber implements IDetector {
                 blocksToCheck = 200000;
         }
         System.out.println("analysing experiment with protons " + experiment.getProton01ID() + " " + experiment.getProton02ID());
-        for (int i = 0; i < blocksToCheck; i++) {
-            higgsPos = matchString(experiment.getBlocks()[i].getStructure(), higgsBosonStructure);
+        for (Block block : experiment.getBlocks()) {
+            if(--blocksToCheck<=0) return;
+            if (block==null) return;
+            higgsPos = matchString(block.getStructure(), higgsBosonStructure);
             if (higgsPos >= 0) {
                 experiment.setHiggsBosonFound(true);
-                experiment.setHiggsBlockID(experiment.getBlocks()[i].getUuid().toString());
+                experiment.setHiggsBlockID(block.getUuid());
                 return;
             }
         }
@@ -82,6 +87,7 @@ public class Detector extends Subscriber implements IDetector {
     public void receive(EventAnalyse event) {
         setActivated(true);
         Instant before = Instant.now();
+        System.out.println("starting analysis..");
         for (Experiment experiment : experimentList) {
             analyse(experiment);
             if (experiment.isHiggsBosonFound()) {
@@ -93,6 +99,7 @@ public class Detector extends Subscriber implements IDetector {
             }
         }
         setActivated(false);
+        System.out.println("..analysis end");
     }
 
     private int matchString(String text, String pattern) {
@@ -119,12 +126,16 @@ public class Detector extends Subscriber implements IDetector {
         return experimentList;
     }
 
-    public void writeToDB() {
+    public void saveExperimentsToDB() {
+        //only 3 experiments, to prevent OoM errors
+        if (Configuration.instance.useDatabase==false) return;
         persistanceLayer.setupConnection();
         persistanceLayer.createTables();
+        System.out.println("writing to DB:");
         for (Experiment experiment : experimentList) {
-            if (experiment.getProton02ID() / 2 < 15 || experiment.getProton02ID() / 2 > 20) continue;
-            System.out.println("writing to DB experiment " + experiment.getProton01ID() + "+" + experiment.getProton02ID());
+            //only save with protonID 33-38
+            if (experiment.getProton02ID() / 2 < 17 || experiment.getProton02ID() / 2 > 19) continue;
+            System.out.print("experiment " + experiment.getProton01ID() + "+" + experiment.getProton02ID());
             persistanceLayer.insert(experiment);
             int i = 0;
             for (Block block : experiment.getBlocks()
@@ -135,5 +146,6 @@ public class Detector extends Subscriber implements IDetector {
             System.out.println("done");
         }
         persistanceLayer.shutdown();
+        System.out.println("finished writing to DB");
     }
 }

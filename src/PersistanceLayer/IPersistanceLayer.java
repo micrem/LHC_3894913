@@ -14,6 +14,8 @@ public interface IPersistanceLayer {
 
     void dropTableExperiments();
 
+    void dropTableBlocks();
+
     void insert(Block block);
 
     Experiment getExperiment(int index);

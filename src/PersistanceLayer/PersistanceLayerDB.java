@@ -19,47 +19,29 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
     private String password = "";
 
     public static void main(String... args) {
-
         PersistanceLayerDB db = PersistanceLayerDB.instance;
         db.setupConnection();
-
         db.shutdown();
-//
-//        application.setupConnection();
-//        application.dropTableCustomers();
-//        application.createTable();
-//
-//        application.insert(new Customer(1, "A"));
-//        application.insert(new Customer(2, "C"));
-//        application.insert(new Customer(3, "B"));
-//        application.insert(new Customer(4, "D"));
-//        application.insert(new Customer(5, "E"));
-//
-//        application.select();
-//
-//        application.shutdown();
     }
 
     @Override
     public void setupConnection() {
-        // System.out.println("--- setupConnection");
-
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             String databaseURL = driverName + databaseFile;
             connection = DriverManager.getConnection(databaseURL, username, password);
-            // System.out.println("connection : " + connection);
         } catch (Exception e) {
-            // System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public void createTables() {
         //attempt to create database in case it doesn't exist yet
+        dropTableExperiments();
+        dropTableBlocks();
         createTableExperiments();
         createTableBlocks();
-
     }
 
 
@@ -102,7 +84,7 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlStatement);
 
-            if (!resultSet.absolute(index)) return null;
+            if (!resultSet.absolute(index)) return null; //attempt to move to resultLine given by index
             Experiment retrievedExperiment = getExperimentFromResult(resultSet);
 
             resultSet.close();
@@ -130,7 +112,14 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
         StringBuilder sqlStringBuilder = new StringBuilder();
         sqlStringBuilder.append("DROP TABLE Experiments");
         // System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
+        update(sqlStringBuilder.toString());
+    }
 
+    @Override
+    public void dropTableBlocks() {
+        StringBuilder sqlStringBuilder = new StringBuilder();
+        sqlStringBuilder.append("DROP TABLE Blocks");
+        // System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
         update(sqlStringBuilder.toString());
     }
 
@@ -150,6 +139,9 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
 
     @Override
     public void insert(Block block) {
+        if (block == null) {
+            return;
+        }
         StringBuilder sqlStringStringBuilder = new StringBuilder();
         sqlStringStringBuilder.append("INSERT INTO blocks values ('" +
                 block.getUuid() + "','" +
@@ -172,17 +164,6 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
             System.out.println("SQL error: " + sqle.getMessage());
         }
     }
-//    private void dropTableCustomers() {
-//        // System.out.println("--- dropTableCustomer");
-//
-//        StringBuilder sqlStringBuilder = new StringBuilder();
-//        sqlStringBuilder.append("DROP TABLE customer");
-//        // System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
-//
-
-//        update(sqlStringBuilder.toString());
-
-//    }
 
     private void executeSQLStatement(String sqlStatement, int numberOfColumns) {
         try {
