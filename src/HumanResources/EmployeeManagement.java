@@ -48,11 +48,11 @@ public enum EmployeeManagement implements IEmployeeManagement {
                 employee = new SecurityOfficer(name);
                 break;
         }
-        if (employee==null) {
+        if (employee == null) {
             return null;
         }
-        employeeMap.put(employee.getId(), new EmployeeEntry(employee,employeeType));
-        return  employee;
+        employeeMap.put(employee.getId(), new EmployeeEntry(employee, employeeType));
+        return employee;
     }
 
     @Override
@@ -72,33 +72,33 @@ public enum EmployeeManagement implements IEmployeeManagement {
     }
 
     private Permission[] getPermissions(EmployeeType type) {
-        Permission[] perm=null;
+        Permission[] perm = null;
         switch (type) {
             case HRAssistant:
-                perm=new Permission[]{Permission.readEmployeeData};
+                perm = new Permission[]{Permission.readEmployeeData};
                 break;
             case HRConsultant:
-                perm=new Permission[]{Permission.readEmployeeData,Permission.writeEmployeeData};
+                perm = new Permission[]{Permission.readEmployeeData, Permission.writeEmployeeData};
                 break;
             case HRHoD:
-                perm=new Permission[]{Permission.readEmployeeData,Permission.writeEmployeeData};
+                perm = new Permission[]{Permission.readEmployeeData, Permission.writeEmployeeData};
                 break;
             case Receptionist:
                 break;
             case Researcher:
-                perm=new Permission[]{Permission.Researcher, Permission.ControlCenter};
+                perm = new Permission[]{Permission.Researcher, Permission.ControlCenter};
                 break;
             case ScientificAssistant:
-                perm=new Permission[]{Permission.ControlCenter};
+                perm = new Permission[]{Permission.ControlCenter};
                 break;
             case SecurityOfficer:
-                perm=new Permission[]{Permission.Security};
+                perm = new Permission[]{Permission.Security};
                 break;
         }
         return perm;
     }
 
-    private class EmployeeEntry{
+    private class EmployeeEntry {
         Employee employee;
         EmployeeType type;
 

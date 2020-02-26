@@ -7,7 +7,6 @@ import Infrastructure.Security.Biometrics.IrisScanner;
 import Infrastructure.Security.Permission;
 import Infrastructure.Security.SecurityConfiguration;
 
-import java.time.Instant;
 import java.time.LocalDate;
 
 public class CardReader implements ICardReader {
@@ -43,14 +42,14 @@ public class CardReader implements ICardReader {
 
     @Override
     public boolean verifyCardUser(Person person) {
-        int passwordAttempts=0;
-        if (!hasValidCard() ) {
+        int passwordAttempts = 0;
+        if (!hasValidCard()) {
             return false;
         }
         //count impossible passwords (bad symbols or format) as attempts || count wrong password attempts
-        while ( !getPasswordInput(person) || !verifyPassword(person)) {
-            if (++passwordAttempts>=3){
-               idCard.grantLockAccess(this).lock();
+        while (!getPasswordInput(person) || !verifyPassword(person)) {
+            if (++passwordAttempts >= 3) {
+                idCard.grantLockAccess(this).lock();
                 return false;
             }
         }
@@ -175,10 +174,10 @@ public class CardReader implements ICardReader {
     }
 
     protected boolean hasValidCard() {
-        if(idCard == null) return false;
-        if(idCard.isLocked()) return false;
-        if(idCard.getValidFrom().isAfter(LocalDate.now())) return false;
-        if(idCard.getValidTo().isBefore(LocalDate.now())) return false;
+        if (idCard == null) return false;
+        if (idCard.isLocked()) return false;
+        if (idCard.getValidFrom().isAfter(LocalDate.now())) return false;
+        if (idCard.getValidTo().isBefore(LocalDate.now())) return false;
         return true;
     }
 

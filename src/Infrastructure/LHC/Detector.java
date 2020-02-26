@@ -1,7 +1,6 @@
 package Infrastructure.LHC;
 
 import HumanResources.Person;
-import HumanResources.Researcher;
 import Infrastructure.Security.IDCard.CardReader;
 import Infrastructure.Security.IDCard.ICardReader;
 import Infrastructure.Security.Permission;
@@ -71,8 +70,8 @@ public class Detector extends Subscriber implements IDetector {
         }
         System.out.println("analysing experiment with protons " + experiment.getProton01ID() + " " + experiment.getProton02ID());
         for (Block block : experiment.getBlocks()) {
-            if(--blocksToCheck<=0) return;
-            if (block==null) return;
+            if (--blocksToCheck <= 0) return;
+            if (block == null) return;
             higgsPos = matchString(block.getStructure(), higgsBosonStructure);
             if (higgsPos >= 0) {
                 experiment.setHiggsBosonFound(true);
@@ -128,7 +127,7 @@ public class Detector extends Subscriber implements IDetector {
 
     public void saveExperimentsToDB() {
         //only 3 experiments, to prevent OoM errors
-        if (Configuration.instance.useDatabase==false) return;
+        if (Configuration.instance.useDatabase == false) return;
         persistanceLayer.setupConnection();
         persistanceLayer.createTables();
         System.out.println("writing to DB:");

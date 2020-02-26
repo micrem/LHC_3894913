@@ -1,9 +1,5 @@
 package HumanResources;
 
-import Infrastructure.LHC.Building;
-import Infrastructure.Security.IDCard.ICardWriter;
-import Infrastructure.Security.IDCard.IROIDCard;
-import Infrastructure.Security.Permission;
 import Infrastructure.Security.Reception;
 
 public class Receptionist extends Employee {

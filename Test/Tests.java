@@ -22,7 +22,7 @@ class Tests {
         lhc.setRing(new Ring(lhc, null));
 
         assertNotNull(lhc.getRing());
-        assertEquals(lhc.getUSPs().length,2);
+        assertEquals(lhc.getUSPs().length, 2);
     }
 
     @Test
@@ -30,7 +30,7 @@ class Tests {
         //USP has 25 batteries
         USP usp = new USP();
 
-        assertEquals(usp.getBatteries().length,25);
+        assertEquals(usp.getBatteries().length, 25);
     }
 
     @Test
@@ -42,10 +42,10 @@ class Tests {
         receptionist.setReception(reception);
         reception.setReceptionist(receptionist);
         visitor.registerWithReceptionist(receptionist);
-        IROIDCard card =  visitor.getCard(new CardReader(false));
+        IROIDCard card = visitor.getCard(new CardReader(false));
 
         assertNotNull(card);
-        assertNotEquals(card.getPassword().length(),0);
+        assertNotEquals(card.getPassword().length(), 0);
         assertTrue(card.hasPermission(Permission.Visitor));
         assertTrue(card.getPerson().equals(visitor));
         assertTrue(reception.verifyVisitor(visitor));
@@ -61,10 +61,10 @@ class Tests {
         secOfficer.setSecCenter(secCenter);
         secCenter.setOfficer(secOfficer);
         employee.registerWithSecCenter(secOfficer);
-        IROIDCard card =  employee.getCard(new CardReader(false));
+        IROIDCard card = employee.getCard(new CardReader(false));
 
         assertNotNull(card);
-        assertNotEquals(card.getPassword().length(),0);
+        assertNotEquals(card.getPassword().length(), 0);
         assertTrue(card.hasPermission(Permission.Researcher));
         assertTrue(card.getPerson().equals(employee));
         assertTrue(secCenter.verifyEmployee(employee));
@@ -82,16 +82,18 @@ class Tests {
         secCenter.setOfficer(secOfficer);
         employee.registerWithSecCenter(secOfficer);
         ICardReader reader = new CardReader(false);
-        IROIDCard card =  employee.getCard(reader);
+        IROIDCard card = employee.getCard(reader);
         //create anonymous insane person test-class
-        Employee crazyPerson = new Researcher("Mad Hatter"){
-            public int passwordAttempts=0;
-                public String typePassword(IPasswordPad passwordPad) {
-                    passwordAttempts++;
-                return password.replace(password.charAt(0),password.charAt(1));
+        Employee crazyPerson = new Researcher("Mad Hatter") {
+            public int passwordAttempts = 0;
+
+            public String typePassword(IPasswordPad passwordPad) {
+                passwordAttempts++;
+                return password.replace(password.charAt(0), password.charAt(1));
             }
-            public String toString(){
-                    return ""+passwordAttempts;
+
+            public String toString() {
+                return "" + passwordAttempts;
             }
         };
         crazyPerson.receiveCard(card);
@@ -136,8 +138,8 @@ class Tests {
         detector.loadExperimentsFromDB();
         //detector.getExperiments(new Researcher(Person.getRandomName())).forEach(System.out::println);
         final List<Experiment> experiments = detector.getExperiments(new Researcher(Person.getRandomName()));
-        assertTrue(experiments.get(0).getBlocks().length==200000);
-        assertTrue(experiments.get(0).getBlocks()[0].getStructure().length()==10);
+        assertTrue(experiments.get(0).getBlocks().length == 200000);
+        assertTrue(experiments.get(0).getBlocks()[0].getStructure().length() == 10);
 
     }
 
@@ -148,7 +150,7 @@ class Tests {
         detector.loadExperimentsFromDB();
         final List<Experiment> experiments = detector.getExperiments(new Researcher(Person.getRandomName()));
         final List<Experiment> filteredExperiments = experiments.stream().filter(experiment -> experiment.isHiggsBosonFound()).collect(Collectors.toList());
-        assertTrue(filteredExperiments.size()>0);
+        assertTrue(filteredExperiments.size() > 0);
         System.out.println(filteredExperiments.get(0));
     }
 
@@ -157,7 +159,7 @@ class Tests {
         //loads protons from files, runs experiments, overwrites into DB
 
         //FIXME test doesn't work reliably, possibly due to laptop performance
-        if(true)return;
+        if (true) return;
 
         ControlCenter cc = new ControlCenter();
         Detector detector = new Detector();
@@ -173,7 +175,7 @@ class Tests {
 
         System.out.println("running experiment ");
         for (int i = 0; i < 25; i++) {
-            System.out.print( " "+ i);
+            System.out.print(" " + i);
             cc.startExperment(ExperimentScope.ESFull);
         }
         System.out.println();

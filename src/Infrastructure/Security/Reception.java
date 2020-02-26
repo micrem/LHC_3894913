@@ -67,9 +67,10 @@ public class Reception {
     public void setReceptionist(Receptionist receptionist) {
         this.receptionist = receptionist;
     }
-    public boolean verifyVisitor(Visitor visitor){
+
+    public boolean verifyVisitor(Visitor visitor) {
         cardWriter.insertCard(visitor.getCard(cardWriter));
-        boolean verified =  cardWriter.verifyCardUser(visitor);
+        boolean verified = cardWriter.verifyCardUser(visitor);
         visitor.receiveCard(cardWriter.ejectCard());
         return verified;
     }

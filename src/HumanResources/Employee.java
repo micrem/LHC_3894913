@@ -12,7 +12,7 @@ public abstract class Employee extends Person {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Employee ID:").append(this.id).append(" name:").append(this.name).append(" hasValidCard:").append(this.getCard()!=null);
+        builder.append("Employee ID:").append(this.id).append(" name:").append(this.name).append(" hasValidCard:").append(this.getCard() != null);
         return builder.toString();
     }
 

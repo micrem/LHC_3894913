@@ -1,8 +1,14 @@
 package Infrastructure.Security;
 
-import HumanResources.*;
+import HumanResources.Employee;
+import HumanResources.EmployeeManagement;
+import HumanResources.IROEmployeeManagement;
+import HumanResources.SecurityOfficer;
 import Infrastructure.LHC.Building;
-import Infrastructure.Security.IDCard.*;
+import Infrastructure.Security.IDCard.CardWriter;
+import Infrastructure.Security.IDCard.ICardWriter;
+import Infrastructure.Security.IDCard.IDCardv2;
+import Infrastructure.Security.IDCard.IROIDCard;
 
 import java.util.Stack;
 
@@ -33,7 +39,9 @@ public class SecurityCentre {
         cardWriter = this.getCardWriter(officer);
         cardWriter.insertCard(idCard);
         permissions = employeeManagement.getEmployeePermissions(employee.getId());
-        for(Permission permission : permissions) {cardWriter.setPermission(permission);}
+        for (Permission permission : permissions) {
+            cardWriter.setPermission(permission);
+        }
         cardWriter.getPasswordInput(employee);
         cardWriter.writePassword();
         cardWriter.scanIrisToCard(employee);
@@ -69,9 +77,9 @@ public class SecurityCentre {
         this.officer = officer;
     }
 
-    public boolean verifyEmployee(Employee employee){
+    public boolean verifyEmployee(Employee employee) {
         cardWriter.insertCard(employee.getCard(cardWriter));
-        boolean verified =  cardWriter.verifyCardUser(employee);
+        boolean verified = cardWriter.verifyCardUser(employee);
         employee.receiveCard(cardWriter.ejectCard());
         return verified;
     }

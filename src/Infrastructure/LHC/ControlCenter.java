@@ -4,7 +4,7 @@ import com.google.common.eventbus.EventBus;
 
 public class ControlCenter {
 
-    private final String roomID ;
+    private final String roomID;
     private EventBus eventBus;
     private Workplace workplace;
 

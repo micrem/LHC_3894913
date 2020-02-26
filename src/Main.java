@@ -1,5 +1,3 @@
-import HumanResources.Person;
-import HumanResources.Researcher;
 import Infrastructure.LHC.*;
 
 public class Main {
@@ -21,7 +19,7 @@ public class Main {
 
         System.out.println("running experiment (limited)");
         for (int i = 0; i < 10; i++) {
-            System.out.print( " "+ i);
+            System.out.print(" " + i);
             cc.startExperment(ExperimentScope.ESFull);
         }
         System.out.println();

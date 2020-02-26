@@ -57,13 +57,15 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     @Override
     public ICardWriter finalizeCard(Person person) {
-        if(this.useIrisScanner){writeableCard.setIrisStructure(person.getIrisScan(irisScanner));}
+        if (this.useIrisScanner) {
+            writeableCard.setIrisStructure(person.getIrisScan(irisScanner));
+        }
         writeableCard.setLocked(false);
         writeableCard.setPerson(person);
         writeableCard.setValidFrom(LocalDate.now());
-        if(idCard.hasPermission(Permission.Visitor)){
+        if (idCard.hasPermission(Permission.Visitor)) {
             writeableCard.setValidTo(LocalDate.now().plusDays(7));
-        }else{
+        } else {
             writeableCard.setValidTo(LocalDate.now().plusYears(1));
         }
 
@@ -76,7 +78,7 @@ public class CardWriter extends CardReader implements ICardWriter {
 
     @Override
     public ICardWriter setPermission(Permission permission) {
-        if (writeableCard!=null) {
+        if (writeableCard != null) {
             writeableCard.setPermission(permission, true);
         }
         return this;
@@ -106,6 +108,6 @@ public class CardWriter extends CardReader implements ICardWriter {
     }
 
     private boolean canWrite() {
-        return idCard!=null && writeableCard != null;
+        return idCard != null && writeableCard != null;
     }
 }

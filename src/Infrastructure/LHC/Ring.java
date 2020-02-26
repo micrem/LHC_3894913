@@ -36,12 +36,12 @@ public class Ring extends Subscriber {
     public void loadProtonTxts() {
         System.out.print("ring: loading protonTraps from txt files..");
         int i;
-        for ( i = 1; i <= numOfFiles; i++) {
+        for (i = 1; i <= numOfFiles; i++) {
             int trapIndex = (i - 1) % 2; //0 or 1, first or second trap
             String filename = fileDirectory + fileNamePart + (i < 10 ? ("0" + i) : i) + fileEnding;
             protonTraps[trapIndex].loadData(filename, i);
         }
-        System.out.println((i-1)+" loaded");
+        System.out.println((i - 1) + " loaded");
     }
 
     public ProtonTrap[] getProtonTraps() {
