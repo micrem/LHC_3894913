@@ -17,7 +17,7 @@ public class Main {
         cc.addSubscriber(detector);
         ring.loadProtonTxts();
 
-        System.out.println("running experiment (limited)");
+        System.out.println("running experiment (limited to first 10)");
         for (int i = 0; i < 10; i++) {
             System.out.print(" " + i);
             cc.startExperment(ExperimentScope.ESFull);
