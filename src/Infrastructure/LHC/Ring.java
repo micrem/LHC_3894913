@@ -17,7 +17,7 @@ public class Ring extends Subscriber {
     private ProtonTrap[] protonTraps;
     private IDetector detector;
     private Magnet[] magnets = new Magnet[72];
-    private Experiment currentExperiment;
+    private IExperiment currentExperiment;
     private Proton protonA;
     private Proton protonB;
     private boolean isActivated;
@@ -52,11 +52,11 @@ public class Ring extends Subscriber {
         this.protonTraps = protonTraps;
     }
 
-    public Experiment getCurrentExperiment() {
+    public IExperiment getCurrentExperiment() {
         return currentExperiment;
     }
 
-    public void setCurrentExperiment(Experiment currentExperiment) {
+    public void setCurrentExperiment(IExperiment currentExperiment) {
         this.currentExperiment = currentExperiment;
     }
 

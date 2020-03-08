@@ -17,7 +17,7 @@ import java.util.List;
 public class Detector extends Subscriber implements IDetector {
     static private String higgsBosonStructure = "higgs";
     private boolean isActivated;
-    private List<Experiment> experimentList = new ArrayList<>();
+    private List<IExperiment> experimentList = new ArrayList<>();
     private ICardReader cardReader = new CardReader(true);
 
     private IPersistanceLayer persistanceLayer = PersistanceLayerDB.instance;
@@ -49,7 +49,7 @@ public class Detector extends Subscriber implements IDetector {
     }
 
     @Override
-    public void analyse(Experiment experiment) {
+    public void analyse(IExperiment experiment) {
         int higgsPos;
         int blocksToCheck;
         switch (experiment.getScope()) {
@@ -87,7 +87,7 @@ public class Detector extends Subscriber implements IDetector {
         setActivated(true);
         Instant before = Instant.now();
         System.out.println("starting analysis..");
-        for (Experiment experiment : experimentList) {
+        for (IExperiment experiment : experimentList) {
             analyse(experiment);
             if (experiment.isHiggsBosonFound()) {
                 Instant after = Instant.now();
@@ -111,7 +111,7 @@ public class Detector extends Subscriber implements IDetector {
     }
 
     @Override
-    public void addExperiment(Experiment experiment) {
+    public void addExperiment(IExperiment experiment) {
         if (experiment == null) {
             return;
         }
@@ -119,7 +119,7 @@ public class Detector extends Subscriber implements IDetector {
     }
 
     @Override
-    public List<Experiment> getExperiments(Person scientist) {
+    public List<IExperiment> getExperiments(Person scientist) {
         cardReader.insertCard(scientist.getCard(this.cardReader));
         if (cardReader.verifyCardUser(scientist) && cardReader.verifyPermission(Permission.Researcher)) ;
         return experimentList;
@@ -131,7 +131,7 @@ public class Detector extends Subscriber implements IDetector {
         persistanceLayer.setupConnection();
         persistanceLayer.createTables();
         System.out.println("writing to DB:");
-        for (Experiment experiment : experimentList) {
+        for (IExperiment experiment : experimentList) {
             //only save with protonID 33-38
             if (experiment.getProton02ID() / 2 < 17 || experiment.getProton02ID() / 2 > 19) continue;
             System.out.print("experiment " + experiment.getProton01ID() + "+" + experiment.getProton02ID());

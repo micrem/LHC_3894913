@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public class Block {
     private UUID uuid;
-
     private String structure;
     private String experimentUUID;
 
@@ -16,6 +15,12 @@ public class Block {
         if (initialise) {
             initialise();
         }
+    }
+
+    public Block(Block b) {
+        this.setExperimentUUID(b.getExperimentUUID());
+        this.setUuid(b.getUuid());
+        this.setStructure(b.getStructure());
     }
 
     public String getStructure() {

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IRODetector {
 
-    List<Experiment> getExperiments(Person scientist);
+    List<IExperiment> getExperiments(Person scientist);
 }

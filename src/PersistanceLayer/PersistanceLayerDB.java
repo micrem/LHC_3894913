@@ -1,6 +1,7 @@
 package PersistanceLayer;
 
 import Infrastructure.LHC.Block;
+import Infrastructure.LHC.IExperiment;
 import Infrastructure.LHC.Experiment;
 
 import java.sql.*;
@@ -63,7 +64,7 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
     }
 
     @Override
-    public void insert(Experiment experiment) {
+    public void insert(IExperiment experiment) {
         StringBuilder sqlStringStringBuilder = new StringBuilder();
         sqlStringStringBuilder.append("INSERT INTO Experiments values ('" +
                 experiment.getUuid() + "','" +
@@ -78,14 +79,14 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
     }
 
     @Override
-    public Experiment getExperiment(int index) {
+    public IExperiment getExperiment(int index) {
         try {
             String sqlStatement = "SELECT * from Experiments";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlStatement);
 
             if (!resultSet.absolute(index)) return null; //attempt to move to resultLine given by index
-            Experiment retrievedExperiment = getExperimentFromResult(resultSet);
+            IExperiment retrievedExperiment = getExperimentFromResult(resultSet);
 
             resultSet.close();
             return retrievedExperiment;
@@ -95,8 +96,8 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
         return null;
     }
 
-    private Experiment getExperimentFromResult(ResultSet resultSet) throws SQLException {
-        Experiment retrievedExperiment = new Experiment();
+    private IExperiment getExperimentFromResult(ResultSet resultSet) throws SQLException {
+        IExperiment retrievedExperiment = new Experiment();
         retrievedExperiment.setUuid(resultSet.getString("uuid"));
         retrievedExperiment.setDateTimeStamp(resultSet.getString("dateTimeStamp"));
         retrievedExperiment.setHiggsBosonFound(resultSet.getBoolean("isHiggsBosonFound"));
@@ -129,7 +130,7 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
         sqlStringBuilder.append("CREATE TABLE Blocks ( ");
         sqlStringBuilder.append("uuid VARCHAR(256) NOT NULL").append(",");
         sqlStringBuilder.append("structure VARCHAR(256) NOT NULL").append(",");
-        sqlStringBuilder.append("Experiment VARCHAR(256) NOT NULL").append(",");
+        sqlStringBuilder.append("IExperiment VARCHAR(256) NOT NULL").append(",");
         sqlStringBuilder.append("PRIMARY KEY (uuid)");
         sqlStringBuilder.append(" )");
         // System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
@@ -198,20 +199,20 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
     }
 
     @Override
-    public List<Experiment> getExperiments() {
-        List<Experiment> retrievedExperiments = new ArrayList<>();
+    public List<IExperiment> getExperiments() {
+        List<IExperiment> retrievedExperiments = new ArrayList<>();
         try {
             String sqlStatement = "SELECT * from Experiments ORDER BY proton01ID";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sqlStatement);
             while (resultSet.next()) {
-                Experiment retrievedExperiment = getExperimentFromResult(resultSet);
+                IExperiment retrievedExperiment = getExperimentFromResult(resultSet);
                 if (retrievedExperiment != null) {
                     retrievedExperiments.add(retrievedExperiment);
                 }
             }
             resultSet.close();
-            for (Experiment exp : retrievedExperiments) {
+            for (IExperiment exp : retrievedExperiments) {
                 Block[] blocks = getBlocksForExperiment(exp);
                 exp.setBlocks(blocks);
             }
@@ -222,7 +223,7 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
         return retrievedExperiments;
     }
 
-    private Block[] getBlocksForExperiment(Experiment experiment) {
+    private Block[] getBlocksForExperiment(IExperiment experiment) {
         Block[] blocks = new Block[200000];
         int index = 0;
         try {

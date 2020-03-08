@@ -7,11 +7,11 @@ public interface IDetector extends IRODetector {
 
     void setActivated(boolean activated);
 
-    void analyse(Experiment experiment);
+    void analyse(IExperiment experiment);
 
     @Subscribe
     void receive(EventAnalyse event);
 
-    void addExperiment(Experiment experiment);
+    void addExperiment(IExperiment experiment);
 
 }

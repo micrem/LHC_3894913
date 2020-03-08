@@ -1,7 +1,7 @@
 package PersistanceLayer;
 
 import Infrastructure.LHC.Block;
-import Infrastructure.LHC.Experiment;
+import Infrastructure.LHC.IExperiment;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface IPersistanceLayer {
 
     void createTables();
 
-    void insert(Experiment experiment);
+    void insert(IExperiment experiment);
 
     void dropTableExperiments();
 
@@ -18,9 +18,9 @@ public interface IPersistanceLayer {
 
     void insert(Block block);
 
-    Experiment getExperiment(int index);
+    IExperiment getExperiment(int index);
 
     void shutdown();
 
-    List<Experiment> getExperiments();
+    List<IExperiment> getExperiments();
 }

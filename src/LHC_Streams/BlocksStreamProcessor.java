@@ -1,7 +1,7 @@
 package LHC_Streams;
 
 import Infrastructure.LHC.Block;
-import Infrastructure.LHC.Experiment;
+import Infrastructure.LHC.IExperiment;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BlocksStreamProcessor {
-    Experiment experiment;
+    IExperiment experiment;
     Stream<Block> blockStream;
     static Map<Object, Boolean> staticDistinctMap = new ConcurrentHashMap<>();
 
-    public BlocksStreamProcessor(Experiment experiment) {
+    public BlocksStreamProcessor(IExperiment experiment) {
         this.experiment = experiment;
         this.blockStream = Arrays.stream(experiment.getBlocks());
     }
