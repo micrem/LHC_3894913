@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BlocksStreamProcessor {
+    static Map<Object, Boolean> staticDistinctMap = new ConcurrentHashMap<>();
     IExperiment experiment;
     Stream<Block> blockStream;
-    static Map<Object, Boolean> staticDistinctMap = new ConcurrentHashMap<>();
 
     public BlocksStreamProcessor(IExperiment experiment) {
         this.experiment = experiment;
@@ -26,6 +26,10 @@ public class BlocksStreamProcessor {
     public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
         staticDistinctMap = new ConcurrentHashMap<>();
         return t -> staticDistinctMap.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+
+    public static void main(String[] args) {
+
     }
 
     //specificaion 01
@@ -82,10 +86,6 @@ public class BlocksStreamProcessor {
                 .filter(distinctByKey(b -> b.getStructure()))
                 .collect(Collectors.partitioningBy(partABC));
         return mapABC;
-    }
-
-    public static void main(String[] args) {
-
     }
 
 }

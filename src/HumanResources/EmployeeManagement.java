@@ -98,15 +98,6 @@ public enum EmployeeManagement implements IEmployeeManagement {
         return perm;
     }
 
-    private class EmployeeEntry {
-        Employee employee;
-        EmployeeType type;
-
-        public EmployeeEntry(Employee employee, EmployeeType type) {
-            this.employee = employee;
-            this.type = type;
-        }
-    }
-
-
 }
+
+

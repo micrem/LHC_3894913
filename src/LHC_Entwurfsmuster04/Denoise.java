@@ -29,7 +29,7 @@ public class Denoise extends ExperimentFileDecorator {
     @Override
     public Block[] getBlocks() {
         //ensure changes to actual experiment are propagated
-        this.setBlocks( denoise(this.experiment.getBlocks()) );
+        this.setBlocks(denoise(this.experiment.getBlocks()));
         return super.getBlocks();
     }
 }

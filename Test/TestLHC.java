@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * cannot be run with coverage, cause undetermined
+ */
 class TestLHC {
     @Test
     void test1() {
@@ -84,6 +87,9 @@ class TestLHC {
         ICardReader reader = new CardReader(false);
         IROIDCard card = employee.getCard(reader);
         //create anonymous insane person test-class
+        CrazyPerson crazyPerson = new CrazyPerson("Mad Hatter");
+
+/*      //anonymous class untestable
         Employee crazyPerson = new Researcher("Mad Hatter") {
             private int passwordAttempts = 0;
 
@@ -95,7 +101,7 @@ class TestLHC {
             public String toString() {
                 return "" + passwordAttempts;
             }
-        };
+        };*/
         crazyPerson.receiveCard(card);
 
         assertFalse(secCenter.verifyEmployee(crazyPerson));
@@ -181,6 +187,23 @@ class TestLHC {
         System.out.println();
         cc.analyseAll();
         detector.saveExperimentsToDB();
+    }
+}
+
+class CrazyPerson extends Researcher {
+    public CrazyPerson(String name) {
+        super(name);
+    }
+
+    private int passwordAttempts = 0;
+
+    public String typePassword(IPasswordPad passwordPad) {
+        passwordAttempts++;
+        return password.replace(password.charAt(0), password.charAt(1));
+    }
+
+    public String toString() {
+        return "" + passwordAttempts;
     }
 
 }

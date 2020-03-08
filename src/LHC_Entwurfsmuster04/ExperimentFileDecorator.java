@@ -1,8 +1,8 @@
 package LHC_Entwurfsmuster04;
 
 import Infrastructure.LHC.Block;
-import Infrastructure.LHC.IExperiment;
 import Infrastructure.LHC.Experiment;
+import Infrastructure.LHC.IExperiment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,14 +15,25 @@ public abstract class ExperimentFileDecorator extends Experiment {
         this.experiment = experiment;
     }
 
-    public void save(){
-        try (PrintWriter writer = new PrintWriter(new File(String.format("proton%02d_proton%02d.txt", experiment.getProton01ID(), experiment.getProton01ID())))) {
-            for (Block block:getBlocks()) {
-                writer.println(block.getStructure());
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public int getProton01ID() {
+        return this.experiment.getProton01ID();
     }
 
+    @Override
+    public void setProton01ID(int proton01ID) {
+        super.setProton01ID(proton01ID);
+        this.experiment.setProton01ID(proton01ID);
+    }
+
+    @Override
+    public int getProton02ID() {
+        return this.experiment.getProton02ID();
+    }
+
+    @Override
+    public void setProton02ID(int proton02ID) {
+        super.setProton02ID(proton02ID);
+        this.experiment.setProton02ID(proton02ID);
+    }
 }

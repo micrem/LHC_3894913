@@ -3,6 +3,7 @@ import Infrastructure.LHC.Experiment;
 import Infrastructure.LHC.IExperiment;
 import LHC_Entwurfsmuster04.Compress;
 import LHC_Entwurfsmuster04.Denoise;
+import LHC_Entwurfsmuster04.ExperimentFileSave;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -38,6 +39,9 @@ public class TestEntwurfsmuster04 {
         experiment.setBlocks(blocks);
         denoised = new Denoise(experiment);
         compressed = new Compress(denoised);
+        experiment.setProton01ID(2);
+        experiment.setProton02ID(3);
+        compressed.getProton02ID();
     }
 
     @Test
@@ -52,11 +56,11 @@ public class TestEntwurfsmuster04 {
     @Test
     void testEntwurfsmusterSave() {
         List<String> fileLines = new ArrayList<>();
-        (new Compress(new Denoise(experiment))).save();
+        ExperimentFileSave.save(new Compress(new Denoise(experiment)));
         try (BufferedReader reader =
                      new BufferedReader(
                              new FileReader(
-                                     new File(String.format("proton%02d_proton%02d.txt", experiment.getProton01ID(), experiment.getProton01ID()))
+                                     new File(String.format("proton%02d_proton%02d.txt", experiment.getProton01ID(), experiment.getProton02ID()))
                              )
                      )
         ) {
