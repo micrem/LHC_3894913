@@ -11,9 +11,7 @@ public abstract class Employee extends Person {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Employee ID:").append(this.id).append(" name:").append(this.name).append(" hasValidCard:").append(this.getCard() != null);
-        return builder.toString();
+        return "Employee ID:" + this.id + " name:" + this.name + " hasValidCard:" + (this.getCard() != null);
     }
 
     public void registerWithSecCenter(SecurityOfficer secOfficer) {

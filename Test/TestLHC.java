@@ -89,7 +89,7 @@ class TestLHC {
         //create anonymous insane person test-class
         CrazyPerson crazyPerson = new CrazyPerson("Mad Hatter");
 
-/*      //anonymous class untestable
+/*      //anonymous class untestable / generates errors with framework
         Employee crazyPerson = new Researcher("Mad Hatter") {
             private int passwordAttempts = 0;
 
@@ -191,11 +191,11 @@ class TestLHC {
 }
 
 class CrazyPerson extends Researcher {
+    private int passwordAttempts = 0;
+
     public CrazyPerson(String name) {
         super(name);
     }
-
-    private int passwordAttempts = 0;
 
     public String typePassword(IPasswordPad passwordPad) {
         passwordAttempts++;

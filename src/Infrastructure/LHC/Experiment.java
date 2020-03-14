@@ -107,10 +107,10 @@ public class Experiment implements IExperiment {
     @Override
     public String toString() {
         StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append("IExperiment: ").append(uuid.toString().substring(0, 5)).append(".. ");
+        strBuilder.append("IExperiment: ").append(uuid.toString(), 0, 5).append(".. ");
         strBuilder.append(" ProtID: ").append(proton01ID).append(":").append(proton02ID);
         if (isHiggsBosonFound) {
-            strBuilder.append(" higgsBlock ID:").append(higgsBlockID.substring(0, 5)).append(".. ");
+            strBuilder.append(" higgsBlock ID:").append(higgsBlockID, 0, 5).append(".. ");
             //comment left in code for dedactic purposes
 //            for (int i=0;i<blocks.length;i++
 //            ) {

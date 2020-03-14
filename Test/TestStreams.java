@@ -1,6 +1,6 @@
 import Infrastructure.LHC.Block;
-import Infrastructure.LHC.IExperiment;
 import Infrastructure.LHC.Experiment;
+import Infrastructure.LHC.IExperiment;
 import LHC_Streams.BlocksStreamProcessor;
 import org.junit.jupiter.api.Test;
 
@@ -8,9 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestStreams {
 
@@ -86,8 +84,8 @@ public class TestStreams {
         Map<Integer, List<Block>> mapAB = (new BlocksStreamProcessor(e)).containsAB();
 
         assertEquals(2, mapAB.size());
-        assertEquals( mapAB.get(0).get(0), blocks[0] );
-        assertTrue( mapAB.get(8).containsAll(Arrays.asList(blocks[1],blocks[3])) );
+        assertEquals(mapAB.get(0).get(0), blocks[0]);
+        assertTrue(mapAB.get(8).containsAll(Arrays.asList(blocks[1], blocks[3])));
     }
 
     @Test
@@ -106,7 +104,7 @@ public class TestStreams {
         Map<Boolean, List<Block>> mapABC = (new BlocksStreamProcessor(e)).distinctPartitionABC();
 
         assertEquals(2, mapABC.size());
-        assertEquals( mapABC.get(false).get(0), blocks[2] );
-        assertTrue( mapABC.get(true).containsAll(Arrays.asList(blocks[0],blocks[3])) );
+        assertEquals(mapABC.get(false).get(0), blocks[2]);
+        assertTrue(mapABC.get(true).containsAll(Arrays.asList(blocks[0], blocks[3])));
     }
 }

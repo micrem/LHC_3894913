@@ -69,17 +69,14 @@ public class CardReader implements ICardReader {
         if (LocalDate.now().isAfter(idCard.getValidTo()) || LocalDate.now().isBefore(idCard.getValidFrom())) {
             return false;
         }
-        if (verifyPassword(person)) return true;
-        return false;
+        return verifyPassword(person);
     }
 
     private boolean verifyFingerprint(Person person) {
         if (idCard.getVersion() == IDCardVersion.MultiChip) {
             String userFingerPrint = person.getFingerScan(fingerScanner);
             String cardFingerPrint = idCard.getMultichipReadAccess(this).getFingerprint(this);
-            if (!userFingerPrint.equals(cardFingerPrint)) {
-                return false;
-            }
+            return userFingerPrint.equals(cardFingerPrint);
         }
         return true;
     }
@@ -108,10 +105,7 @@ public class CardReader implements ICardReader {
         if (encodedDefaultPassword.equals(idCard.getPassword()) && !person.getCard(this).hasPermission(Permission.Visitor)) {
             return changeDefaultPassword(person);
         }
-        if (encodedPassword.equals(idCard.getPassword())) {
-            return true;
-        }
-        return false;
+        return encodedPassword.equals(idCard.getPassword());
     }
 
     @Override
@@ -177,8 +171,7 @@ public class CardReader implements ICardReader {
         if (idCard == null) return false;
         if (idCard.isLocked()) return false;
         if (idCard.getValidFrom().isAfter(LocalDate.now())) return false;
-        if (idCard.getValidTo().isBefore(LocalDate.now())) return false;
-        return true;
+        return !idCard.getValidTo().isBefore(LocalDate.now());
     }
 
 }

@@ -27,8 +27,8 @@ public class TestEntwurfsmuster04 {
     static String structure2 = "c<c>c00###";
     static String structure3 = "c111111aaa";
     static List<String> expectedStructures = Arrays.asList("3b3a", "abc00003a", "3c00", "c1111113a");
-    static IExperiment denoised ;
-    static IExperiment compressed ;
+    static IExperiment denoised;
+    static IExperiment compressed;
 
     @BeforeAll
     public static void init() {
@@ -41,7 +41,6 @@ public class TestEntwurfsmuster04 {
         compressed = new Compress(denoised);
         experiment.setProton01ID(2);
         experiment.setProton02ID(3);
-        compressed.getProton02ID();
     }
 
     @Test

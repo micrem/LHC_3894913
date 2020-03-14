@@ -48,19 +48,18 @@ public enum PersistanceLayerDB implements IPersistanceLayer {
 
     private void createTableExperiments() {
 
-        StringBuilder sqlStringBuilder = new StringBuilder();
-        sqlStringBuilder.append("CREATE TABLE Experiments ( ");
-        sqlStringBuilder.append("uuid VARCHAR(256) NOT NULL").append(",");
-        sqlStringBuilder.append("dateTimeStamp VARCHAR(256) NOT NULL").append(",");
-        sqlStringBuilder.append("isHiggsBosonFound BOOLEAN NOT NULL").append(",");
-        sqlStringBuilder.append("higgsBlockID VARCHAR(256)").append(",");
-        sqlStringBuilder.append("scope VARCHAR(256) NOT NULL").append(",");
-        sqlStringBuilder.append("proton01ID INTEGER DEFAULT 0").append(",");
-        sqlStringBuilder.append("proton02ID INTEGER DEFAULT 0").append(",");
-        sqlStringBuilder.append("PRIMARY KEY (uuid)");
-        sqlStringBuilder.append(" )");
         // System.out.println("sqlStringBuilder : " + sqlStringBuilder.toString());
-        update(sqlStringBuilder.toString());
+        String sqlStringBuilder = "CREATE TABLE Experiments ( " +
+                "uuid VARCHAR(256) NOT NULL" + "," +
+                "dateTimeStamp VARCHAR(256) NOT NULL" + "," +
+                "isHiggsBosonFound BOOLEAN NOT NULL" + "," +
+                "higgsBlockID VARCHAR(256)" + "," +
+                "scope VARCHAR(256) NOT NULL" + "," +
+                "proton01ID INTEGER DEFAULT 0" + "," +
+                "proton02ID INTEGER DEFAULT 0" + "," +
+                "PRIMARY KEY (uuid)" +
+                " )";
+        update(sqlStringBuilder);
     }
 
     @Override
